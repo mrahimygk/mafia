@@ -1,10 +1,15 @@
+import 'package:mafia/data/db/database_provider.dart';
 import 'package:mafia/data/model/role/group.dart';
+import 'package:sqflite/sqflite.dart';
 
 import 'dao.dart';
 
 class GroupDao implements BaseDao<Group> {
-  @override
-  String get createTableQuery => 'CREATE TABLE $groupTable ('
+  final DatabaseProvider? databaseProvider;
+
+  GroupDao(this.databaseProvider);
+
+  static String get createTableQuery => 'CREATE TABLE $groupTable ('
       '$groupColumnId INTEGER PRIMARY KEY AUTOINCREMENT, '
       '$groupColumnName TEXT, '
       "$tableColumnCreatedDate INTEGER DEFAULT (cast(strftime('%s','now') as int)), "
@@ -26,6 +31,73 @@ class GroupDao implements BaseDao<Group> {
 
   @override
   Group fromMap(Map<String, dynamic> query) => Group.fromMap(query);
+
+  @override
+  Future<int> insert(Group data) async {
+    final db = await databaseProvider!.db();
+    return await db.insert(
+      groupTable,
+      toMap(data),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  @override
+  Future update(Group data) async {
+    final db = await databaseProvider!.db();
+    await db.update(
+      groupTable,
+      toMap(data),
+      where: '$groupColumnId = ?',
+      whereArgs: [data.id],
+    );
+  }
+
+  @override
+  Future delete(Group data) async {
+    final db = await databaseProvider!.db();
+    await db.delete(
+      groupTable,
+      where: '$groupColumnId = ?',
+      whereArgs: [data.id],
+    );
+  }
+
+  @override
+  Future<List<Group>?>? getAllFromDb() async {
+    final db = await databaseProvider!.db();
+    List<Map<String, dynamic>> map = await db.query(
+      groupTable,
+      columns: [
+        groupColumnId,
+        groupColumnName,
+        tableColumnCreatedDate,
+        tableColumnModifiedDate,
+      ],
+    );
+    if (map.length > 0) {
+      return fromList(map);
+    }
+    return null;
+  }
+
+  @override
+  Future<Group?>? getFromDb(int id) async {
+    final db = await databaseProvider!.db();
+    List<Map<String, dynamic>> map = await db.query(groupTable,
+        columns: [
+          groupColumnId,
+          groupColumnName,
+          tableColumnCreatedDate,
+          tableColumnModifiedDate,
+        ],
+        where: '$groupColumnId = ?',
+        whereArgs: [id]);
+    if (map.length > 0) {
+      return fromMap(map.first);
+    }
+    return null;
+  }
 }
 
 const groupTable = 'group';
