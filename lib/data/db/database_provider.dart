@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:mafia/common/data/group_list.dart';
 import 'package:mafia/common/data/prefs_data.dart';
@@ -29,13 +28,13 @@ class DatabaseProvider {
 
     _db = await openDatabase(path, version: 1,
         onCreate: (Database db, int version) async {
-      await db.execute(RoleDao().createTableQuery);
+      await db.execute(PrefsDataDao.createTableQuery);
+      await db.execute(GroupDao.createTableQuery);
+      await db.execute(RoleDao.createTableQuery);
 
-      final deviceId = Random.secure().nextDouble() * (double.maxFinite / 10);
       final batch = db.batch();
 
-      batch.insert(prefsDataTable,
-          prefsData.copyWith(deviceId: deviceId.toString()).toMap());
+      batch.insert(prefsDataTable, prefsData.copyWith(deviceId: "").toMap());
 
       groupList.forEach((element) {
         batch.insert(groupTable, element.toMap());
