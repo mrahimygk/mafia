@@ -1,12 +1,11 @@
 import 'package:equatable/equatable.dart';
 import 'package:mafia/navigation/type.dart';
 
-//TODO: this can be renamed to WidgetState
-abstract class PageState extends Equatable {
-  const PageState();
+abstract class WidgetState extends Equatable {
+  const WidgetState();
 }
 
-abstract class NavigationState extends PageState {
+abstract class NavigationState extends WidgetState {
   final String destination;
   final dynamic args;
   final String? popUntil;

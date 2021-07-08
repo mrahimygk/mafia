@@ -9,7 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 /// T is the Cubit with generic type of ScreenState
 /// S is the ScreenState
 /// U is the argument type.
-abstract class BasePage<T extends Cubit<S>, S extends PageState, U>
+abstract class BasePage<T extends Cubit<S>, S extends WidgetState, U>
     extends StatelessWidget {
   final _navigationManager = serviceLocator<NavigationManager>();
 

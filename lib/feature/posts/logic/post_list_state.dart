@@ -1,6 +1,6 @@
 part of 'post_list_cubit.dart';
 
-abstract class PostListState extends PageState {
+abstract class PostListState extends WidgetState {
   const PostListState();
 }
 

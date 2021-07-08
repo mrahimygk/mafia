@@ -1,6 +1,6 @@
 part of 'history_periods_cubit.dart';
 
-abstract class HistoryPeriodsState extends PageState {
+abstract class HistoryPeriodsState extends WidgetState {
   const HistoryPeriodsState();
 }
 

@@ -1,6 +1,6 @@
 part of 'coin_chart_cubit.dart';
 
-abstract class CoinChartState extends PageState {
+abstract class CoinChartState extends WidgetState {
   const CoinChartState();
 }
 

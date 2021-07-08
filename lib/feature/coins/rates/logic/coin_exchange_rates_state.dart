@@ -1,6 +1,6 @@
 part of 'coin_exchange_rates_cubit.dart';
 
-abstract class CoinExchangeRatesState extends PageState {
+abstract class CoinExchangeRatesState extends WidgetState {
   const CoinExchangeRatesState();
 }
 
