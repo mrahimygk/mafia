@@ -1,10 +1,14 @@
 import 'package:mafia/data/model/role/prefs_data.dart';
 
+import '../database_provider.dart';
 import 'dao.dart';
 
 class PrefsDataDao implements BaseDao<PrefsData> {
-  @override
-  String get createTableQuery => 'CREATE TABLE $prefsDataTable ('
+  final DatabaseProvider? databaseProvider;
+
+  PrefsDataDao(this.databaseProvider);
+
+  static String get createTableQuery => 'CREATE TABLE $prefsDataTable ('
       '$prefsDataColumnUuid INTEGER PRIMARY KEY AUTOINCREMENT, '
       '$prefsDataColumnDeviceId TEXT, '
       '$prefsDataColumnIsFirstRun INTEGER, '
@@ -28,6 +32,36 @@ class PrefsDataDao implements BaseDao<PrefsData> {
 
   @override
   PrefsData fromMap(Map<String, dynamic> query) => PrefsData.fromMap(query);
+
+  @override
+  Future<int> insert(PrefsData data) {
+    // TODO: implement insert
+    throw UnimplementedError();
+  }
+
+  @override
+  Future update(PrefsData data) {
+    // TODO: implement update
+    throw UnimplementedError();
+  }
+
+  @override
+  Future delete(PrefsData data) {
+    // TODO: implement delete
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<PrefsData>?>? getAllFromDb() {
+    // TODO: implement getAllFromDb
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<PrefsData?>? getFromDb(int id) {
+    // TODO: implement getFromDb
+    throw UnimplementedError();
+  }
 }
 
 const prefsDataTable = 'prefsData';
