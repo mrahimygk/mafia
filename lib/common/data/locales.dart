@@ -8,7 +8,7 @@ final appLocaleList = [
   ),
   AppLocale(
     Locale('fr'),
-    "français",
+    "Français",
   ),
   AppLocale(
     Locale('ar'),
