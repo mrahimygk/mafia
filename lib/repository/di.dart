@@ -4,9 +4,15 @@ import 'package:mafia/data/api/coin/exchange_rate_api.dart';
 import 'package:mafia/data/api/posts_api.dart';
 import 'package:mafia/data/cache/coin/coins_cache.dart';
 import 'package:mafia/data/cache/coin/exchange_rate_cache.dart';
+import 'package:mafia/data/cache/role/group_cache.dart';
+import 'package:mafia/data/cache/role/role_cache.dart';
+import 'package:mafia/data/db/dao/group_dao.dart';
+import 'package:mafia/data/db/dao/role_dao.dart';
 import 'package:mafia/repository/coins/coins_repository.dart';
 import 'package:mafia/repository/coins/exchange_rates_repository.dart';
 import 'package:mafia/repository/posts_repository.dart';
+import 'package:mafia/repository/role/group_repository.dart';
+import 'package:mafia/repository/role/role_repository.dart';
 
 void registerRepositoryModule() {
   serviceLocator.registerFactory<PostsRepository>(
@@ -20,4 +26,14 @@ void registerRepositoryModule() {
             serviceLocator.get<ExchangeRateApi>(),
             serviceLocator.get<ExchangeRateCache>(),
           ));
+
+  serviceLocator.registerFactory<GroupRepository>(() => GroupRepositoryImpl(
+        serviceLocator.get<GroupDao>(),
+        serviceLocator.get<GroupCache>(),
+      ));
+
+  serviceLocator.registerFactory<RoleRepository>(() => RoleRepositoryImpl(
+        serviceLocator.get<RoleDao>(),
+        serviceLocator.get<RoleCache>(),
+      ));
 }
