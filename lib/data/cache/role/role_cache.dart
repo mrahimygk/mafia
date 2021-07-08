@@ -5,39 +5,39 @@ abstract class RoleCache {
 
   Future<Role?>? getRole(int id);
 
-  void putRoles(List<Role>? roles);
+  void putRoles(List<Role>? list);
 
-  void putRole(Role? role);
+  void putRole(Role? item);
 }
 
 class RoleCacheImpl extends RoleCache {
-  Map<int, Role>? roles;
+  Map<int, Role>? cache;
 
   @override
   Future<List<Role>>? getRoles() =>
-      roles == null ? null : Future.value(roles!.values.toList());
+      cache == null ? null : Future.value(cache!.values.toList());
 
   @override
-  void putRoles(List<Role>? roleList) {
-    if (roles == null) {
-      roles = Map<int, Role>();
+  void putRoles(List<Role>? list) {
+    if (cache == null) {
+      cache = Map<int, Role>();
     }
-    roleList?.forEach((element) {
-      roles?[element.id] = element;
+    list?.forEach((element) {
+      cache?[element.id] = element;
     });
   }
 
   @override
   Future<Role?>? getRole(int id) =>
-      roles == null ? null : Future.value(roles![id]);
+      cache == null ? null : Future.value(cache![id]);
 
   @override
-  void putRole(Role? role) {
-    if (roles == null) {
-      roles = Map<int, Role>();
+  void putRole(Role? item) {
+    if (cache == null) {
+      cache = Map<int, Role>();
     }
 
-    if (role == null) return;
-    roles?[role.id] = role;
+    if (item == null) return;
+    cache?[item.id] = item;
   }
 }
