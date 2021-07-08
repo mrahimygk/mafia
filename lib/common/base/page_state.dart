@@ -1,0 +1,21 @@
+import 'package:equatable/equatable.dart';
+import 'package:mafia/navigation/type.dart';
+
+//TODO: this can be renamed to WidgetState
+abstract class PageState extends Equatable {
+  const PageState();
+}
+
+abstract class NavigationState extends PageState {
+  final String destination;
+  final dynamic args;
+  final String? popUntil;
+  final NavigationType? navigationType;
+
+  NavigationState(
+    this.destination,
+    this.args, {
+    this.popUntil,
+    this.navigationType,
+  });
+}

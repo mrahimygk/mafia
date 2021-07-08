@@ -1,0 +1,35 @@
+import 'package:mafia/app/di.dart';
+import 'package:mafia/domain/usecase/coin/get_coin_by_id_usecase.dart';
+import 'package:mafia/domain/usecase/coin/get_coin_icons_usecase.dart';
+import 'package:mafia/domain/usecase/coin/get_coin_rates_usecase.dart';
+import 'package:mafia/domain/usecase/coin/get_coins_usecase.dart';
+import 'package:mafia/domain/usecase/coin/get_history_periods_usecase.dart';
+import 'package:mafia/domain/usecase/coin/get_rate_history_usecase.dart';
+import 'package:mafia/domain/usecase/get_posts_usecase.dart';
+import 'package:mafia/repository/coins/coins_repository.dart';
+import 'package:mafia/repository/coins/exchange_rates_repository.dart';
+import 'package:mafia/repository/posts_repository.dart';
+
+void registerUseCaseModule() {
+  serviceLocator.registerFactory<GetPostsUseCase>(
+      () => GetPostsUseCaseImpl(serviceLocator.get<PostsRepository>()));
+
+  serviceLocator.registerFactory<GetCoinsUseCase>(
+      () => GetCoinsUseCaseImpl(serviceLocator.get<CoinsRepository>()));
+
+  serviceLocator.registerFactory<GetCoinByIdUseCase>(
+      () => GetCoinByIdUseCaseImpl(serviceLocator.get<CoinsRepository>()));
+
+  serviceLocator.registerFactory<GetCoinIconsUseCase>(
+      () => GetCoinIconsUseCaseImpl(serviceLocator.get<CoinsRepository>()));
+
+  serviceLocator.registerFactory<GetCoinRatesUseCase>(() =>
+      GetCoinRatesUseCaseImpl(serviceLocator.get<ExchangeRatesRepository>()));
+
+  serviceLocator.registerFactory<GetRateHistoryUseCase>(() =>
+      GetRateHistoryUseCaseImpl(serviceLocator.get<ExchangeRatesRepository>()));
+
+  serviceLocator.registerFactory<GetHistoryPeriodsUseCase>(() =>
+      GetHistoryPeriodsUseCaseImpl(
+          serviceLocator.get<ExchangeRatesRepository>()));
+}
