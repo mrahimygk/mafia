@@ -38,6 +38,6 @@ class RoleListCubit extends PageCubit<RoleListState> {
   }
 
   void navigateToRoleDetails(Role coin) {
-    emit(RoleListNavigationState(NavigationRoutes.COIN_DETAILS, coin));
+    //emit(RoleListNavigationState(NavigationRoutes.DETAILS, coin));
   }
 }

@@ -38,6 +38,6 @@ class PlayerListCubit extends PageCubit<PlayerListState> {
   }
 
   void navigateToPlayerDetails(Player player) {
-    emit(PlayerListNavigationState(NavigationRoutes.COIN_DETAILS, player));
+    //emit(PlayerListNavigationState(NavigationRoutes.DETAILS, player));
   }
 }
