@@ -98,8 +98,9 @@ class RoleDao implements BaseDao<Role> {
         whereArgs: [id]);
     if (map.length > 0) {
       final role = fromMap(map.first);
-      final group = await groupDao.getFromDb(role.groupId);
-      return role.copyWith(group: group);
+      return role.copyWith(
+        group: await groupDao.getFromDb(role.groupId),
+      );
     }
     return null;
   }
