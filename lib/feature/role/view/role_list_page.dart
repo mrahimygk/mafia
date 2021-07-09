@@ -29,13 +29,13 @@ class RoleListPage extends BasePage<RoleListCubit, RoleListState, void> {
       appBar: AppBar(
         title: Text("roleList".tr()),
       ),
-      drawer: AppDrawer(
+      /*drawer: AppDrawer(
         onToggleTheme: onToggleTheme,
         onItemClick: onDrawerItemClick,
         onLanguageChanged: (Locale? locale) {
           localization.EasyLocalization.of(context)!.setLocale(locale!);
         },
-      ),
+      ),*/
       body: BlocBuilder(
         bloc: _cubit,
         buildWhen: (previousState, currentState) {

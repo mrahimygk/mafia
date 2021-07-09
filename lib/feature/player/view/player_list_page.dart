@@ -29,13 +29,13 @@ class PlayerListPage extends BasePage<PlayerListCubit, PlayerListState, void> {
       appBar: AppBar(
         title: Text("playerList".tr()),
       ),
-      drawer: AppDrawer(
+      /*drawer: AppDrawer(
         onToggleTheme: onToggleTheme,
         onItemClick: onDrawerItemClick,
         onLanguageChanged: (Locale? locale) {
           localization.EasyLocalization.of(context)!.setLocale(locale!);
         },
-      ),
+      ),*/
       body: BlocBuilder(
         bloc: _cubit,
         buildWhen: (previousState, currentState) {
