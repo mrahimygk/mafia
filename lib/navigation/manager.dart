@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mafia/feature/coins/details/view/coin_details_page.dart';
 import 'package:mafia/feature/coins/list/view/coin_list_page.dart';
-import 'package:mafia/feature/posts/view/post_list_page.dart';
+import 'package:mafia/feature/player/view/player_list_page.dart';
+import 'package:mafia/feature/role/view/role_list_page.dart';
 import 'package:mafia/navigation/routes.dart';
 
 abstract class NavigationManager {
@@ -45,9 +46,12 @@ class NavigationManagerImpl extends NavigationManager {
     required VoidCallback onToggleTheme,
   }) =>
       {
-        NavigationRoutes.POST_LIST: (context) => PostListPage(onToggleTheme),
+        NavigationRoutes.PLAYER_LIST: (context) =>
+            PlayerListPage(onToggleTheme),
+        NavigationRoutes.ROLE_LIST: (context) => RoleListPage(onToggleTheme),
         NavigationRoutes.COIN_LIST: (context) => CoinListPage(onToggleTheme),
-        NavigationRoutes.COIN_DETAILS: (context) => CoinDetailsPage(onToggleTheme),
+        NavigationRoutes.COIN_DETAILS: (context) =>
+            CoinDetailsPage(onToggleTheme),
       };
 
   @override
