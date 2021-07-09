@@ -98,4 +98,6 @@ class RoleListWidget extends BasePage<RoleListCubit, RoleListState, void> {
 
     return list;
   }
+
+  List<Role>? getSelectedRoles() => this.roles?.where((element) => element.isSelected).toList();
 }
