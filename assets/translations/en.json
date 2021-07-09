@@ -13,6 +13,8 @@
   "noData": "There is no data in the list",
   "addRoles": "Add Roles to see them here",
   "addPlayers": "Add Players to see them here",
+  "gameSetup": "Set up a game",
+  "toss": "Toss",
   "mafiaGroup": "Mafia Group",
   "citizenGroup": "Citizens",
   "independentGroup": "Independents",
