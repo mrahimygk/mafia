@@ -6,17 +6,20 @@ import 'package:mafia/domain/model/locale/app_locale.dart';
 class AppDrawer extends StatefulWidget {
   final Function(Locale? locale)? onLanguageChanged;
   final VoidCallback onToggleTheme;
+  final Function(int type) onItemClick;
 
   const AppDrawer({
     Key? key,
     this.onLanguageChanged,
     required this.onToggleTheme,
+    required this.onItemClick,
   }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => AppDrawerState(
         onToggleTheme: onToggleTheme,
         onLanguageChanged: onLanguageChanged,
+        onItemClick: onItemClick,
       );
 }
 
@@ -26,11 +29,13 @@ class AppDrawerState extends State<AppDrawer> {
 
   final Function(Locale? locale)? onLanguageChanged;
   final VoidCallback onToggleTheme;
+  final Function(int type) onItemClick;
 
   AppDrawerState({
     Key? key,
     this.onLanguageChanged,
     required this.onToggleTheme,
+    required this.onItemClick,
   });
 
   @override
@@ -85,7 +90,17 @@ class AppDrawerState extends State<AppDrawer> {
                 ));
           }
 
-          return ListTile(title: Text(items[index].title.tr()));
+          return GestureDetector(
+              onTapUp: (d) {
+                onItemClick(items[index].type);
+              },
+              child: ListTile(
+                title: Text(items[index].title.tr()),
+                trailing: Icon(
+                  Icons.arrow_forward_ios,
+                  size: 16.0,
+                ),
+              ));
         },
       ),
     );
@@ -112,6 +127,7 @@ class AppDrawerItems {
   static const int LOGIN = 1;
   static const int LANGUAGE = 2;
   static const int DARK_MODE = 3;
+  static const int LISTS = 4;
 
   static List<IDrawerItem> get() {
     return [
@@ -119,6 +135,7 @@ class AppDrawerItems {
       SimpleDrawerItem("login", LOGIN),
       DrawerItem("language", LANGUAGE),
       DrawerItem("darkMode", DARK_MODE),
+      DrawerItem("lists", LISTS),
     ];
   }
 }
