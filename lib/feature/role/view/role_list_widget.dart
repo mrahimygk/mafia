@@ -76,8 +76,12 @@ class RoleListWidget extends BasePage<RoleListCubit, RoleListState, void> {
   Widget _buildRoleListView(
       List<Role> roles, TextDirection direction, bool isDarkMode) {
     return SingleChildScrollView(
-      child: Wrap(
-        children: _buildRoleChildren(roles, direction, isDarkMode),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Wrap(
+          alignment: WrapAlignment.spaceBetween,
+          children: _buildRoleChildren(roles, direction, isDarkMode),
+        ),
       ),
     );
   }
