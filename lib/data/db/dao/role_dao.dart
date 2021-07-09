@@ -1,5 +1,4 @@
 import 'package:mafia/data/db/dao/group_dao.dart';
-import 'package:mafia/data/model/role/group.dart';
 import 'package:mafia/data/model/role/role.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -74,20 +73,11 @@ class RoleDao implements BaseDao<Role> {
       ],
     );
     if (map.length > 0) {
-      final List<Role> roleList = fromList(map);
-      Iterable<Future<Group?>> groupListAsync =
-          roleList.map((element) async => groupDao.getFromDb(element.groupId));
-      // to get the list of int you have to do the following
-      Future<List<Group?>> futureList = Future.wait(groupListAsync);
-      List<Group?> groupList = await futureList;
-
-      return roleList.map((e) {
-        return e.copyWith(
-          group: groupList.where((element) {
-            return element?.id == e.groupId;
-          }).first,
+      return await Future.wait(fromList(map).map((element) async {
+        return element.copyWith(
+          group: await groupDao.getFromDb(element.groupId),
         );
-      }).toList();
+      }));
     }
     return null;
   }
@@ -107,7 +97,9 @@ class RoleDao implements BaseDao<Role> {
         where: '$roleColumnId = ?',
         whereArgs: [id]);
     if (map.length > 0) {
-      return fromMap(map.first);
+      final role = fromMap(map.first);
+      final group = await groupDao.getFromDb(role.groupId);
+      return role.copyWith(group: group);
     }
     return null;
   }
