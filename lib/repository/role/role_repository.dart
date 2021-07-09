@@ -12,6 +12,7 @@ abstract class RoleRepository {
   RoleRepository(this.dao, this.memoryCache);
 
   Stream<ApiResource<List<Role>>> getRoles();
+  Stream<ApiResource<List<Role>>> getRolesByGroupId(int gid);
 
   Stream<ApiResource<Role>> getRole(int id);
 }
@@ -28,6 +29,21 @@ class RoleRepositoryImpl extends RoleRepository {
         await (memoryCache.getRoles() ?? dao.getAllFromDb())!
             .then((List<Role>? value) {
       memoryCache.putRoles(value);
+      return ApiResource(Status.SUCCESS, value, null);
+    }).onError((error, stackTrace) {
+      return ApiResource(Status.ERROR, null, (error as DioError).message);
+    });
+
+    yield data;
+  }
+
+  @override
+  Stream<ApiResource<List<Role>>> getRolesByGroupId(int gid) async* {
+    yield ApiResource(Status.LOADING, null, null);
+
+    final ApiResource<List<Role>> data =
+        await (memoryCache.getRolesByGroupId(gid) ?? dao.getByGroupId(gid))!
+            .then((List<Role>? value) {
       return ApiResource(Status.SUCCESS, value, null);
     }).onError((error, stackTrace) {
       return ApiResource(Status.ERROR, null, (error as DioError).message);
