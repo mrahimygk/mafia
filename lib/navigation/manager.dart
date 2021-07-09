@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mafia/feature/coins/details/view/coin_details_page.dart';
-import 'package:mafia/feature/coins/list/view/coin_list_page.dart';
 import 'package:mafia/feature/player/view/player_list_page.dart';
 import 'package:mafia/feature/role/view/role_list_page.dart';
 import 'package:mafia/navigation/routes.dart';
@@ -13,6 +11,7 @@ abstract class NavigationManager {
   Map<String, WidgetBuilder> initializeNavigationRoutes(
     BuildContext context, {
     required VoidCallback onToggleTheme,
+    required Function(int type) onDrawerItemClick,
   });
 
   Future<Object?> pushNamed(
@@ -44,14 +43,12 @@ class NavigationManagerImpl extends NavigationManager {
   Map<String, WidgetBuilder> initializeNavigationRoutes(
     BuildContext context, {
     required VoidCallback onToggleTheme,
+    required Function(int type) onDrawerItemClick,
   }) =>
       {
         NavigationRoutes.PLAYER_LIST: (context) =>
-            PlayerListPage(onToggleTheme),
-        NavigationRoutes.ROLE_LIST: (context) => RoleListPage(onToggleTheme),
-        NavigationRoutes.COIN_LIST: (context) => CoinListPage(onToggleTheme),
-        NavigationRoutes.COIN_DETAILS: (context) =>
-            CoinDetailsPage(onToggleTheme),
+            PlayerListPage(onToggleTheme, onDrawerItemClick),
+        NavigationRoutes.ROLE_LIST: (context) => RoleListPage(onToggleTheme, onDrawerItemClick),
       };
 
   @override
