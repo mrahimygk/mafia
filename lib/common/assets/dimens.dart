@@ -1,1 +1,1 @@
-const double coinIconSize = 24.0;
+const double iconSize = 24.0;

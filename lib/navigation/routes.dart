@@ -1,6 +1,5 @@
 class NavigationRoutes {
   static const String PLAYER_LIST = "/player_list";
   static const String ROLE_LIST = "/role_list";
-  static const String COIN_LIST = "/coin_list";
-  static const String COIN_DETAILS = "/coin_details";
+  static const String LISTS = "/lists";
 }

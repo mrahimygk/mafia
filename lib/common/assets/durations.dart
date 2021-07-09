@@ -1,1 +1,1 @@
-const int coinFadeDuration = 200;
+const int fadeDuration = 200;
