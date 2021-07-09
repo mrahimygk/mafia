@@ -14,8 +14,6 @@ class RoleListWidget extends BasePage<RoleListCubit, RoleListState, void> {
   final VoidCallback onToggleTheme;
   final Function(int type) onDrawerItemClick;
 
-  List<Role>? roles;
-
   RoleListWidget(this.onToggleTheme, this.onDrawerItemClick, {Key? key})
       : super(key: key) {
     _cubit.getRoleList();
@@ -60,7 +58,6 @@ class RoleListWidget extends BasePage<RoleListCubit, RoleListState, void> {
         }
 
         if (state is RoleListDataReceivedState) {
-          this.roles = state.roles;
           return _buildRoleListView(state.roles, direction, isDarkMode);
         }
 
@@ -99,5 +96,5 @@ class RoleListWidget extends BasePage<RoleListCubit, RoleListState, void> {
     return list;
   }
 
-  List<Role>? getSelectedRoles() => this.roles?.where((element) => element.isSelected).toList();
+  List<Role>? getSelectedRoles() => _cubit.getSelectedRoles();
 }
