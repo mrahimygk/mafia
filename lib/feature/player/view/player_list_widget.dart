@@ -1,12 +1,12 @@
-import 'package:easy_localization/easy_localization.dart' as localization;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mafia/app/di.dart';
 import 'package:mafia/common/base/base_page.dart';
 import 'package:mafia/common/widgets/api_error_widget.dart';
 import 'package:mafia/common/widgets/empty_list_widget.dart';
-import 'package:mafia/data/model/player/player.dart';
+import 'package:mafia/domain/model/player/player.dart';
 import 'package:mafia/feature/player/logic/player_list_cubit.dart';
+import 'package:mafia/feature/role/view/role_item_widget.dart';
 
 class PlayerListWidget
     extends BasePage<PlayerListCubit, PlayerListState, void> {
@@ -84,24 +84,7 @@ class PlayerListWidget
       List<Player> roles, TextDirection direction, bool isDarkMode) {
     final List<Widget> list = [];
     roles.forEach((item) {
-      list.add(GestureDetector(
-        onTapUp: (d) {},
-        child: Padding(
-          padding: const EdgeInsets.all(6.0),
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.blueGrey.shade100,
-              border: Border(),
-              borderRadius: BorderRadius.all(Radius.circular(6.0)),
-            ),
-            padding: EdgeInsets.all(6.0),
-            child: Text(
-              "${item.name}",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-        ),
-      ));
+      list.add(RoleItemWidget(item: item));
     });
 
     return list;

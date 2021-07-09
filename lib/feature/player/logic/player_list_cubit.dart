@@ -1,10 +1,9 @@
 import 'package:mafia/common/base/page_cubit.dart';
 import 'package:mafia/common/base/page_state.dart';
-import 'package:mafia/data/model/player/player.dart';
 import 'package:mafia/domain/model/base/api_resource.dart';
 import 'package:mafia/domain/model/base/status.dart';
+import 'package:mafia/domain/model/player/player.dart';
 import 'package:mafia/domain/usecase/player/get_players_usecase.dart';
-import 'package:mafia/navigation/routes.dart';
 import 'package:mafia/navigation/type.dart';
 
 part 'player_list_state.dart';

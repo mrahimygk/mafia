@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:mafia/common/transform/player.dart';
 import 'package:mafia/data/cache/player/player_cache.dart';
 import 'package:mafia/data/db/dao/player_dao.dart';
-import 'package:mafia/data/model/player/player.dart';
+import 'package:mafia/data/model/player/player.dart' as dat;
 import 'package:mafia/domain/model/base/api_resource.dart';
 import 'package:mafia/domain/model/base/status.dart';
+import 'package:mafia/domain/model/player/player.dart' as dom;
 
 abstract class PlayerRepository {
   final PlayerDao dao;
@@ -11,9 +13,9 @@ abstract class PlayerRepository {
 
   PlayerRepository(this.dao, this.memoryCache);
 
-  Stream<ApiResource<List<Player>>> getPlayers();
+  Stream<ApiResource<List<dom.Player>>> getPlayers();
 
-  Stream<ApiResource<Player>> getPlayer(int id);
+  Stream<ApiResource<dom.Player>> getPlayer(int id);
 }
 
 class PlayerRepositoryImpl extends PlayerRepository {
@@ -21,14 +23,15 @@ class PlayerRepositoryImpl extends PlayerRepository {
       : super(dao, memoryCache);
 
   @override
-  Stream<ApiResource<List<Player>>> getPlayers() async* {
+  Stream<ApiResource<List<dom.Player>>> getPlayers() async* {
     yield ApiResource(Status.LOADING, null, null);
 
-    final ApiResource<List<Player>> data =
+    final ApiResource<List<dom.Player>> data =
         await (memoryCache.getPlayers() ?? dao.getAllFromDb())!
-            .then((List<Player>? value) {
+            .then((List<dat.Player>? value) {
       memoryCache.putPlayers(value);
-      return ApiResource(Status.SUCCESS, value, null);
+      return ApiResource(
+          Status.SUCCESS, value?.map((e) => e.toDomain()).toList(), null);
     }).onError((error, stackTrace) {
       return ApiResource(Status.ERROR, null, (error as DioError).message);
     });
@@ -37,14 +40,14 @@ class PlayerRepositoryImpl extends PlayerRepository {
   }
 
   @override
-  Stream<ApiResource<Player>> getPlayer(int id) async* {
+  Stream<ApiResource<dom.Player>> getPlayer(int id) async* {
     yield ApiResource(Status.LOADING, null, null);
 
-    final ApiResource<Player> data =
+    final ApiResource<dom.Player> data =
         await (memoryCache.getPlayer(id) ?? dao.getFromDb(id))!
-            .then((Player? value) {
+            .then((dat.Player? value) {
       memoryCache.putPlayer(value);
-      return ApiResource(Status.SUCCESS, value, null);
+      return ApiResource(Status.SUCCESS, value?.toDomain(), null);
     }).onError((error, stackTrace) {
       return ApiResource(Status.ERROR, null, (error as DioError).message);
     });
