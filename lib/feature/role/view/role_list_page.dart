@@ -7,14 +7,15 @@ import 'package:mafia/common/widgets/api_error_widget.dart';
 import 'package:mafia/common/widgets/drawer.dart';
 import 'package:mafia/data/model/role/role.dart';
 import 'package:mafia/feature/role/logic/role_list_cubit.dart';
-import 'package:mafia/navigation/routes.dart';
 
 class RoleListPage extends BasePage<RoleListCubit, RoleListState, void> {
   final RoleListCubit _cubit = serviceLocator.get<RoleListCubit>();
 
   final VoidCallback onToggleTheme;
+  final Function(int type) onDrawerItemClick;
 
-  RoleListPage(this.onToggleTheme, {Key? key}) : super(key: key) {
+  RoleListPage(this.onToggleTheme, this.onDrawerItemClick, {Key? key})
+      : super(key: key) {
     _cubit.getRoleList();
   }
 
@@ -30,6 +31,7 @@ class RoleListPage extends BasePage<RoleListCubit, RoleListState, void> {
       ),
       drawer: AppDrawer(
         onToggleTheme: onToggleTheme,
+        onItemClick: onDrawerItemClick,
         onLanguageChanged: (Locale? locale) {
           localization.EasyLocalization.of(context)!.setLocale(locale!);
         },
@@ -91,11 +93,7 @@ class RoleListPage extends BasePage<RoleListCubit, RoleListState, void> {
         itemBuilder: (context, index) {
           final item = roles[index];
           return GestureDetector(
-            onTapUp: (d) {
-              // _cubit.navigateToRoleDetails(item);
-              Navigator.of(context)
-                  .pushNamed(NavigationRoutes.COIN_DETAILS, arguments: item);
-            },
+            onTapUp: (d) {},
             child: Text(
               "${item.name} (${item.id})",
               style: TextStyle(fontWeight: FontWeight.bold),

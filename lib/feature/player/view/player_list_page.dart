@@ -7,14 +7,15 @@ import 'package:mafia/common/widgets/api_error_widget.dart';
 import 'package:mafia/common/widgets/drawer.dart';
 import 'package:mafia/data/model/player/player.dart';
 import 'package:mafia/feature/player/logic/player_list_cubit.dart';
-import 'package:mafia/navigation/routes.dart';
 
 class PlayerListPage extends BasePage<PlayerListCubit, PlayerListState, void> {
   final PlayerListCubit _cubit = serviceLocator.get<PlayerListCubit>();
 
   final VoidCallback onToggleTheme;
+  final Function(int type) onDrawerItemClick;
 
-  PlayerListPage(this.onToggleTheme, {Key? key}) : super(key: key) {
+  PlayerListPage(this.onToggleTheme, this.onDrawerItemClick, {Key? key})
+      : super(key: key) {
     _cubit.getPlayerList();
   }
 
@@ -30,6 +31,7 @@ class PlayerListPage extends BasePage<PlayerListCubit, PlayerListState, void> {
       ),
       drawer: AppDrawer(
         onToggleTheme: onToggleTheme,
+        onItemClick: onDrawerItemClick,
         onLanguageChanged: (Locale? locale) {
           localization.EasyLocalization.of(context)!.setLocale(locale!);
         },
@@ -89,8 +91,6 @@ class PlayerListPage extends BasePage<PlayerListCubit, PlayerListState, void> {
           return GestureDetector(
             onTapUp: (d) {
               // _cubit.navigateToPlayerDetails(item);
-              Navigator.of(context)
-                  .pushNamed(NavigationRoutes.COIN_DETAILS, arguments: item);
             },
             child: Text(
               "${item.name} (${item.id})",
