@@ -6,7 +6,7 @@ import 'package:mafia/common/widgets/api_error_widget.dart';
 import 'package:mafia/common/widgets/empty_list_widget.dart';
 import 'package:mafia/domain/model/player/player.dart';
 import 'package:mafia/feature/player/logic/player_list_cubit.dart';
-import 'package:mafia/feature/role/view/role_item_widget.dart';
+import 'package:mafia/feature/role/view/selectable_item_widget.dart';
 
 class PlayerListWidget
     extends BasePage<PlayerListCubit, PlayerListState, void> {
@@ -84,7 +84,7 @@ class PlayerListWidget
       List<Player> roles, TextDirection direction, bool isDarkMode) {
     final List<Widget> list = [];
     roles.forEach((item) {
-      list.add(RoleItemWidget(item: item));
+      list.add(SelectableItemWidget(item: item));
     });
 
     return list;

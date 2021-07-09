@@ -6,7 +6,7 @@ import 'package:mafia/common/widgets/api_error_widget.dart';
 import 'package:mafia/common/widgets/empty_list_widget.dart';
 import 'package:mafia/domain/model/role/role.dart';
 import 'package:mafia/feature/role/logic/role_list_cubit.dart';
-import 'package:mafia/feature/role/view/role_item_widget.dart';
+import 'package:mafia/feature/role/view/selectable_item_widget.dart';
 
 class RoleListWidget extends BasePage<RoleListCubit, RoleListState, void> {
   final RoleListCubit _cubit = serviceLocator.get<RoleListCubit>();
@@ -90,7 +90,7 @@ class RoleListWidget extends BasePage<RoleListCubit, RoleListState, void> {
       List<Role> roles, TextDirection direction, bool isDarkMode) {
     final List<Widget> list = [];
     roles.forEach((item) {
-      list.add(RoleItemWidget(item: item));
+      list.add(SelectableItemWidget(item: item));
     });
 
     return list;

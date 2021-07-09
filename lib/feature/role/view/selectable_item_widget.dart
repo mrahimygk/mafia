@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:mafia/domain/model/player/player.dart';
 import 'package:mafia/domain/model/role/role.dart';
 
-class RoleItemWidget<T> extends StatefulWidget {
+class SelectableItemWidget<T> extends StatefulWidget {
   final T item;
 
-  const RoleItemWidget({Key? key, required this.item}) : super(key: key);
+  const SelectableItemWidget({Key? key, required this.item}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _RoleItemWidgetState();
+  State<StatefulWidget> createState() => _SelectableItemWidgetState();
 }
 
-class _RoleItemWidgetState extends State<RoleItemWidget> {
+class _SelectableItemWidgetState extends State<SelectableItemWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
