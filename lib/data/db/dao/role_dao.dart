@@ -1,3 +1,4 @@
+import 'package:mafia/data/db/dao/group_dao.dart';
 import 'package:mafia/data/model/role/role.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -6,14 +7,15 @@ import 'dao.dart';
 
 class RoleDao implements BaseDao<Role> {
   final DatabaseProvider? databaseProvider;
+  final GroupDao groupDao;
 
-  RoleDao(this.databaseProvider);
+  RoleDao(this.databaseProvider, this.groupDao);
 
   static String get createTableQuery => 'CREATE TABLE $roleTable ('
       '$roleColumnId INTEGER PRIMARY KEY AUTOINCREMENT, '
       '$roleColumnName TEXT, '
       '$roleColumnDescription TEXT, '
-      '$roleColumnGroup INTEGER, '
+      '$roleColumnGroupId INTEGER, '
       "$tableColumnCreatedDate INTEGER DEFAULT (cast(strftime('%s','now') as int)), "
       "$tableColumnModifiedDate INTEGER DEFAULT (cast(strftime('%s','now') as int))"
       ')';
@@ -65,7 +67,7 @@ class RoleDao implements BaseDao<Role> {
         roleColumnId,
         roleColumnName,
         roleColumnDescription,
-        roleColumnGroup,
+        roleColumnGroupId,
         tableColumnCreatedDate,
         tableColumnModifiedDate,
       ],
@@ -84,7 +86,7 @@ class RoleDao implements BaseDao<Role> {
           roleColumnId,
           roleColumnName,
           roleColumnDescription,
-          roleColumnGroup,
+          roleColumnGroupId,
           tableColumnCreatedDate,
           tableColumnModifiedDate,
         ],
@@ -95,10 +97,29 @@ class RoleDao implements BaseDao<Role> {
     }
     return null;
   }
+
+  Future<List<Role>?>? getByGroupId(int gid) async {
+    final db = await databaseProvider!.db();
+    List<Map<String, dynamic>> map = await db.query(roleTable,
+        columns: [
+          roleColumnId,
+          roleColumnName,
+          roleColumnDescription,
+          roleColumnGroupId,
+          tableColumnCreatedDate,
+          tableColumnModifiedDate,
+        ],
+        where: '$roleColumnGroupId = ?',
+        whereArgs: [gid]);
+    if (map.length > 0) {
+      return fromList(map);
+    }
+    return null;
+  }
 }
 
-const roleTable = 'role';
+const roleTable = 'roleTable';
 const roleColumnId = 'id';
 const roleColumnName = 'name';
 const roleColumnDescription = 'description';
-const roleColumnGroup = 'group';
+const roleColumnGroupId = 'roleGroup';
