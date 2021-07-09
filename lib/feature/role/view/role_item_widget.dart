@@ -23,7 +23,7 @@ class _RoleItemWidgetState extends State<RoleItemWidget> {
         });
       },
       child: Padding(
-        padding: const EdgeInsets.all(6.0),
+        padding: const EdgeInsets.all(4.0),
         child: Container(
           decoration: BoxDecoration(
             color: widget.item.groupId == 1
