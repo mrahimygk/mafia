@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mafia/app/di.dart';
 import 'package:mafia/common/base/base_page.dart';
 import 'package:mafia/common/widgets/api_error_widget.dart';
-import 'package:mafia/common/widgets/drawer.dart';
+import 'package:mafia/common/widgets/empty_list_widget.dart';
 import 'package:mafia/data/model/player/player.dart';
 import 'package:mafia/feature/player/logic/player_list_cubit.dart';
 
@@ -52,13 +52,11 @@ class PlayerListPage extends BasePage<PlayerListCubit, PlayerListState, void> {
           }
 
           if (state is PlayerListNoDataState) {
-            return Center(child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text("No data, add players"),
-                IconButton(icon: Icon(Icons.add_circle_rounded), onPressed: (){})
-              ],
-            ));
+            return Center(
+              child: EmptyListWidget("addPlayers", () {
+                //TODO: add players dialog
+              }),
+            );
           }
 
           if (state is PlayerListErrorState) {
