@@ -6,7 +6,6 @@ import 'package:mafia/common/styles/themes.dart';
 import 'package:mafia/common/widgets/drawer.dart';
 import 'package:mafia/data/prefs/app_shared_prefs.dart';
 import 'package:mafia/navigation/manager.dart';
-import 'package:mafia/navigation/routes.dart';
 
 import 'di.dart' as di;
 
@@ -71,7 +70,6 @@ class _MafiaAppState extends State<MafiaApp> {
           case AppDrawerItems.LOGIN:
             break;
           case AppDrawerItems.LISTS:
-            _navigationManager.pushNamed(context, NavigationRoutes.LISTS, null);
             break;
         }
       }),
