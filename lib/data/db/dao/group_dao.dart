@@ -100,6 +100,6 @@ class GroupDao implements BaseDao<Group> {
   }
 }
 
-const groupTable = 'group';
+const groupTable = 'groupTable';
 const groupColumnId = 'id';
 const groupColumnName = 'name';
