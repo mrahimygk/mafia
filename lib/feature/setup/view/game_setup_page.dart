@@ -6,9 +6,7 @@ import 'package:mafia/common/base/base_page.dart';
 import 'package:mafia/common/widgets/api_error_widget.dart';
 import 'package:mafia/common/widgets/drawer.dart';
 import 'package:mafia/common/widgets/empty_list_widget.dart';
-import 'package:mafia/feature/player/view/player_list_page.dart';
 import 'package:mafia/feature/player/view/player_list_widget.dart';
-import 'package:mafia/feature/role/view/role_list_page.dart';
 import 'package:mafia/feature/role/view/role_list_widget.dart';
 import 'package:mafia/feature/setup/logic/game_setup_cubit.dart';
 
@@ -78,6 +76,7 @@ class GameSetupPage extends BasePage<GameSetupCubit, GameSetupState, void> {
   GameSetupCubit getPageBloc() => _cubit;
 
   Widget _buildGameSetupView(TextDirection direction, bool isDarkMode) {
+    final roleListWidget = RoleListWidget(onToggleTheme, onDrawerItemClick);
     return Stack(
       children: [
         Container(
@@ -89,12 +88,12 @@ class GameSetupPage extends BasePage<GameSetupCubit, GameSetupState, void> {
                   title: Text("players".tr()),
                 ),
                 Container(
-                  height: 100,
+                    height: 100,
                     child: PlayerListWidget(onToggleTheme, onDrawerItemClick)),
-                ListTile(title: Text("roles".tr()),),
-                Container(
-                  height: 200,
-                    child: RoleListWidget(onToggleTheme, onDrawerItemClick)),
+                ListTile(
+                  title: Text("roles".tr()),
+                ),
+                Container(height: 200, child: roleListWidget),
               ],
             ),
           ),
@@ -105,7 +104,11 @@ class GameSetupPage extends BasePage<GameSetupCubit, GameSetupState, void> {
             alignment: Alignment.bottomCenter,
             child: ElevatedButton(
               child: Text("toss".tr()),
-              onPressed: () {},
+              onPressed: () {
+                roleListWidget.getSelectedRoles()?.forEach((element) {
+                  print(element.name);
+                });
+              },
             ),
           ),
         )
