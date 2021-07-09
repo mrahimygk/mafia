@@ -1,3 +1,4 @@
+import 'package:mafia/data/db/dao/player_scope_dao.dart';
 import 'package:mafia/data/model/player/player.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -6,12 +7,14 @@ import 'dao.dart';
 
 class PlayerDao implements BaseDao<Player> {
   final DatabaseProvider? databaseProvider;
+  final PlayerScopeDao playerScopeDao;
 
-  PlayerDao(this.databaseProvider);
+  PlayerDao(this.databaseProvider, this.playerScopeDao);
 
   static String get createTableQuery => 'CREATE TABLE $playerTable ('
       '$playerColumnId INTEGER PRIMARY KEY AUTOINCREMENT, '
       '$playerColumnName TEXT, '
+      '$playerColumnScope INTEGER, '
       "$tableColumnCreatedDate INTEGER DEFAULT (cast(strftime('%s','now') as int)), "
       "$tableColumnModifiedDate INTEGER DEFAULT (cast(strftime('%s','now') as int))"
       ')';
@@ -62,12 +65,17 @@ class PlayerDao implements BaseDao<Player> {
       columns: [
         playerColumnId,
         playerColumnName,
+        playerColumnScope,
         tableColumnCreatedDate,
         tableColumnModifiedDate,
       ],
     );
     if (map.length > 0) {
-      return fromList(map);
+      return await Future.wait(fromList(map).map((element) async {
+        return element.copyWith(
+          scope: await playerScopeDao.getFromDb(element.scopeId),
+        );
+      }));
     }
     return null;
   }
@@ -79,13 +87,17 @@ class PlayerDao implements BaseDao<Player> {
         columns: [
           playerColumnId,
           playerColumnName,
+          playerColumnScope,
           tableColumnCreatedDate,
           tableColumnModifiedDate,
         ],
         where: '$playerColumnId = ?',
         whereArgs: [id]);
     if (map.length > 0) {
-      return fromMap(map.first);
+      final player = fromMap(map.first);
+      return player.copyWith(
+        scope: await playerScopeDao.getFromDb(id),
+      );
     }
     return null;
   }
@@ -94,3 +106,4 @@ class PlayerDao implements BaseDao<Player> {
 const playerTable = 'player';
 const playerColumnId = 'id';
 const playerColumnName = 'name';
+const playerColumnScope = 'playerScope';
