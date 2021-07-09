@@ -3,6 +3,8 @@ import 'package:mafia/common/data/group_list.dart';
 import 'package:mafia/common/data/prefs_data.dart';
 import 'package:mafia/common/data/role_list.dart';
 import 'package:mafia/data/db/dao/group_dao.dart';
+import 'package:mafia/data/db/dao/occupation_dao.dart';
+import 'package:mafia/data/db/dao/player_dao.dart';
 import 'package:mafia/data/db/dao/role_dao.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -31,6 +33,8 @@ class DatabaseProvider {
       await db.execute(PrefsDataDao.createTableQuery);
       await db.execute(GroupDao.createTableQuery);
       await db.execute(RoleDao.createTableQuery);
+      await db.execute(PlayerDao.createTableQuery);
+      await db.execute(OccupationDao.createTableQuery);
 
       final batch = db.batch();
 
