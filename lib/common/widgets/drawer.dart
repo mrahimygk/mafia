@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:mafia/common/data/locales.dart';
 import 'package:mafia/domain/model/locale/app_locale.dart';
+import 'package:mafia/navigation/routes.dart';
 
 class AppDrawer extends StatefulWidget {
   final Function(Locale? locale)? onLanguageChanged;
@@ -92,7 +93,12 @@ class AppDrawerState extends State<AppDrawer> {
 
           return GestureDetector(
               onTapUp: (d) {
-                onItemClick(items[index].type);
+                final item = items[index];
+                onItemClick(item.type);
+                switch (item.type) {
+                  case AppDrawerItems.LISTS:
+                    Navigator.pushNamed(context, NavigationRoutes.LISTS);
+                }
               },
               child: ListTile(
                 title: Text(items[index].title.tr()),
