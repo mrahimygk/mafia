@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart' as localization;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mafia/app/di.dart';
@@ -7,6 +6,7 @@ import 'package:mafia/common/widgets/api_error_widget.dart';
 import 'package:mafia/common/widgets/empty_list_widget.dart';
 import 'package:mafia/data/model/role/role.dart';
 import 'package:mafia/feature/role/logic/role_list_cubit.dart';
+import 'package:mafia/feature/role/view/role_item_widget.dart';
 
 class RoleListWidget extends BasePage<RoleListCubit, RoleListState, void> {
   final RoleListCubit _cubit = serviceLocator.get<RoleListCubit>();
@@ -26,49 +26,48 @@ class RoleListWidget extends BasePage<RoleListCubit, RoleListState, void> {
     bool isDarkMode,
   ) {
     return BlocBuilder(
-        bloc: _cubit,
-        buildWhen: (previousState, currentState) {
-          return previousState != currentState;
-        },
-        builder: (BuildContext context, RoleListState state) {
-          if (state is RoleListInitialState ||
-              state is RoleListNavigationState) {
-            return Container(color: Colors.white);
-          }
+      bloc: _cubit,
+      buildWhen: (previousState, currentState) {
+        return previousState != currentState;
+      },
+      builder: (BuildContext context, RoleListState state) {
+        if (state is RoleListInitialState || state is RoleListNavigationState) {
+          return Container(color: Colors.white);
+        }
 
-          if (state is RoleListLoadingState) {
-            return Center(child: CircularProgressIndicator());
-          }
+        if (state is RoleListLoadingState) {
+          return Center(child: CircularProgressIndicator());
+        }
 
-          if (state is RoleListNoDataState) {
-            return Center(
-              child: EmptyListWidget("addRoles", () {
-                //TODO: add players dialog
-              }),
-            );
-          }
+        if (state is RoleListNoDataState) {
+          return Center(
+            child: EmptyListWidget("addRoles", () {
+              //TODO: add players dialog
+            }),
+          );
+        }
 
-          if (state is RoleListErrorState) {
-            return Center(
-              child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: ApiErrorWidget(state.error, () {
-                    _cubit.getRoleList();
-                  })),
-            );
-          }
+        if (state is RoleListErrorState) {
+          return Center(
+            child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: ApiErrorWidget(state.error, () {
+                  _cubit.getRoleList();
+                })),
+          );
+        }
 
-          if (state is RoleListDataReceivedState) {
-            return _buildRoleListView(state.roles, direction, isDarkMode);
-          }
+        if (state is RoleListDataReceivedState) {
+          return _buildRoleListView(state.roles, direction, isDarkMode);
+        }
 
-          if (state is RoleListDataFilledState) {
-            return _buildRoleListView(state.roles, direction, isDarkMode);
-          }
+        if (state is RoleListDataFilledState) {
+          return _buildRoleListView(state.roles, direction, isDarkMode);
+        }
 
-          throw Exception("Please handle all states above $state");
-        },
-      );
+        throw Exception("Please handle all states above $state");
+      },
+    );
   }
 
   @override
@@ -87,28 +86,7 @@ class RoleListWidget extends BasePage<RoleListCubit, RoleListState, void> {
       List<Role> roles, TextDirection direction, bool isDarkMode) {
     final List<Widget> list = [];
     roles.forEach((item) {
-      list.add(GestureDetector(
-        onTapUp: (d) {},
-        child: Padding(
-          padding: const EdgeInsets.all(6.0),
-          child: Container(
-            decoration: BoxDecoration(
-              color: item.groupId == 1
-                  ? Colors.red.shade100
-                  : item.groupId == 2
-                      ? Colors.green.shade100
-                      : Colors.yellow.shade100,
-              border: Border(),
-              borderRadius: BorderRadius.all(Radius.circular(6.0)),
-            ),
-            padding: EdgeInsets.all(6.0),
-            child: Text(
-              "${item.name.tr()}",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-        ),
-      ));
+      list.add(RoleItemWidget(item: item));
     });
 
     return list;
