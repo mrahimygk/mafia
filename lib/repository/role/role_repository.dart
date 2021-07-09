@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:mafia/common/transform/role.dart';
 import 'package:mafia/data/cache/role/role_cache.dart';
 import 'package:mafia/data/db/dao/role_dao.dart';
-import 'package:mafia/data/model/role/role.dart';
+import 'package:mafia/data/model/role/role.dart' as dat;
 import 'package:mafia/domain/model/base/api_resource.dart';
 import 'package:mafia/domain/model/base/status.dart';
+import 'package:mafia/domain/model/role/role.dart' as dom;
 
 abstract class RoleRepository {
   final RoleDao dao;
@@ -11,10 +13,11 @@ abstract class RoleRepository {
 
   RoleRepository(this.dao, this.memoryCache);
 
-  Stream<ApiResource<List<Role>>> getRoles();
-  Stream<ApiResource<List<Role>>> getRolesByGroupId(int gid);
+  Stream<ApiResource<List<dom.Role>>> getRoles();
 
-  Stream<ApiResource<Role>> getRole(int id);
+  Stream<ApiResource<List<dom.Role>>> getRolesByGroupId(int gid);
+
+  Stream<ApiResource<dom.Role>> getRole(int id);
 }
 
 class RoleRepositoryImpl extends RoleRepository {
@@ -22,14 +25,15 @@ class RoleRepositoryImpl extends RoleRepository {
       : super(dao, memoryCache);
 
   @override
-  Stream<ApiResource<List<Role>>> getRoles() async* {
+  Stream<ApiResource<List<dom.Role>>> getRoles() async* {
     yield ApiResource(Status.LOADING, null, null);
 
-    final ApiResource<List<Role>> data =
+    final ApiResource<List<dom.Role>> data =
         await (memoryCache.getRoles() ?? dao.getAllFromDb())!
-            .then((List<Role>? value) {
+            .then((List<dat.Role>? value) {
       memoryCache.putRoles(value);
-      return ApiResource(Status.SUCCESS, value, null);
+      return ApiResource(
+          Status.SUCCESS, value?.map((e) => e.toDomain()).toList(), null);
     }).onError((error, stackTrace) {
       return ApiResource(Status.ERROR, null, (error as DioError).message);
     });
@@ -38,13 +42,14 @@ class RoleRepositoryImpl extends RoleRepository {
   }
 
   @override
-  Stream<ApiResource<List<Role>>> getRolesByGroupId(int gid) async* {
+  Stream<ApiResource<List<dom.Role>>> getRolesByGroupId(int gid) async* {
     yield ApiResource(Status.LOADING, null, null);
 
-    final ApiResource<List<Role>> data =
+    final ApiResource<List<dom.Role>> data =
         await (memoryCache.getRolesByGroupId(gid) ?? dao.getByGroupId(gid))!
-            .then((List<Role>? value) {
-      return ApiResource(Status.SUCCESS, value, null);
+            .then((List<dat.Role>? value) {
+      return ApiResource(
+          Status.SUCCESS, value?.map((e) => e.toDomain()).toList(), null);
     }).onError((error, stackTrace) {
       return ApiResource(Status.ERROR, null, (error as DioError).message);
     });
@@ -53,14 +58,14 @@ class RoleRepositoryImpl extends RoleRepository {
   }
 
   @override
-  Stream<ApiResource<Role>> getRole(int id) async* {
+  Stream<ApiResource<dom.Role>> getRole(int id) async* {
     yield ApiResource(Status.LOADING, null, null);
 
-    final ApiResource<Role> data =
+    final ApiResource<dom.Role> data =
         await (memoryCache.getRole(id) ?? dao.getFromDb(id))!
-            .then((Role? value) {
+            .then((dat.Role? value) {
       memoryCache.putRole(value);
-      return ApiResource(Status.SUCCESS, value, null);
+      return ApiResource(Status.SUCCESS, value?.toDomain(), null);
     }).onError((error, stackTrace) {
       return ApiResource(Status.ERROR, null, (error as DioError).message);
     });

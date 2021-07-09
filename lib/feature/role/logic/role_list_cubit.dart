@@ -1,6 +1,6 @@
 import 'package:mafia/common/base/page_cubit.dart';
 import 'package:mafia/common/base/page_state.dart';
-import 'package:mafia/data/model/role/role.dart';
+import 'package:mafia/domain/model/role/role.dart';
 import 'package:mafia/domain/model/base/api_resource.dart';
 import 'package:mafia/domain/model/base/status.dart';
 import 'package:mafia/domain/usecase/role/get_roles_usecase.dart';

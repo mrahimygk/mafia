@@ -1,4 +1,4 @@
-import 'package:mafia/data/model/role/role.dart';
+import 'package:mafia/domain/model/role/role.dart';
 import 'package:mafia/domain/base/base_use_case.dart';
 import 'package:mafia/domain/model/base/api_resource.dart';
 import 'package:mafia/repository/role/role_repository.dart';

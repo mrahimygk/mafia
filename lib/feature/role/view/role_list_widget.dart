@@ -4,7 +4,7 @@ import 'package:mafia/app/di.dart';
 import 'package:mafia/common/base/base_page.dart';
 import 'package:mafia/common/widgets/api_error_widget.dart';
 import 'package:mafia/common/widgets/empty_list_widget.dart';
-import 'package:mafia/data/model/role/role.dart';
+import 'package:mafia/domain/model/role/role.dart';
 import 'package:mafia/feature/role/logic/role_list_cubit.dart';
 import 'package:mafia/feature/role/view/role_item_widget.dart';
 
@@ -13,6 +13,8 @@ class RoleListWidget extends BasePage<RoleListCubit, RoleListState, void> {
 
   final VoidCallback onToggleTheme;
   final Function(int type) onDrawerItemClick;
+
+  List<Role>? roles;
 
   RoleListWidget(this.onToggleTheme, this.onDrawerItemClick, {Key? key})
       : super(key: key) {
@@ -58,6 +60,7 @@ class RoleListWidget extends BasePage<RoleListCubit, RoleListState, void> {
         }
 
         if (state is RoleListDataReceivedState) {
+          this.roles = state.roles;
           return _buildRoleListView(state.roles, direction, isDarkMode);
         }
 
