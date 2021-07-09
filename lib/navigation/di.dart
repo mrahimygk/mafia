@@ -4,6 +4,6 @@ import 'package:mafia/navigation/routes.dart';
 
 void registerNavigationModule() {
   serviceLocator.registerSingleton<NavigationManager>(
-    NavigationManagerImpl(NavigationRoutes.COIN_LIST),
+    NavigationManagerImpl(NavigationRoutes.PLAYER_LIST),
   );
 }
