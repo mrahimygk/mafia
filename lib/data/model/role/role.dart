@@ -1,11 +1,13 @@
 import 'package:mafia/data/db/dao/dao.dart';
 import 'package:mafia/data/db/dao/role_dao.dart';
+import 'package:mafia/data/model/role/group.dart';
 
 class Role {
   final int id;
   final String name;
   final String description;
   final int groupId;
+  Group? group;
   final int createdDate;
   final int modifiedDate;
 
@@ -14,6 +16,7 @@ class Role {
     this.name,
     this.description,
     this.groupId,
+    this.group,
     this.createdDate,
     this.modifiedDate,
   );
@@ -23,6 +26,7 @@ class Role {
     String? name,
     String? description,
     int? groupId,
+    Group? group,
     int? createdDate,
     int? modifiedDate,
   }) =>
@@ -31,6 +35,7 @@ class Role {
         name ?? this.name,
         description ?? this.description,
         groupId ?? this.groupId,
+        group ?? this.group,
         createdDate ?? this.createdDate,
         modifiedDate ?? this.modifiedDate,
       );
@@ -41,6 +46,7 @@ class Role {
       json[roleColumnName],
       json[roleColumnDescription],
       json[roleColumnGroupId],
+      null,
       json[tableColumnCreatedDate],
       json[tableColumnModifiedDate],
     );
