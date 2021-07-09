@@ -5,7 +5,7 @@ class Role {
   final int id;
   final String name;
   final String description;
-  final int group;
+  final int groupId;
   final int createdDate;
   final int modifiedDate;
 
@@ -13,7 +13,7 @@ class Role {
     this.id,
     this.name,
     this.description,
-    this.group,
+    this.groupId,
     this.createdDate,
     this.modifiedDate,
   );
@@ -22,7 +22,7 @@ class Role {
     int? id,
     String? name,
     String? description,
-    int? group,
+    int? groupId,
     int? createdDate,
     int? modifiedDate,
   }) =>
@@ -30,7 +30,7 @@ class Role {
         id ?? this.id,
         name ?? this.name,
         description ?? this.description,
-        group ?? this.group,
+        groupId ?? this.groupId,
         createdDate ?? this.createdDate,
         modifiedDate ?? this.modifiedDate,
       );
@@ -40,7 +40,7 @@ class Role {
       json[roleColumnId],
       json[roleColumnName],
       json[roleColumnDescription],
-      json[roleColumnGroup],
+      json[roleColumnGroupId],
       json[tableColumnCreatedDate],
       json[tableColumnModifiedDate],
     );
@@ -51,7 +51,7 @@ class Role {
     data[roleColumnId] = id;
     data[roleColumnName] = name;
     data[roleColumnDescription] = description;
-    data[roleColumnGroup] = group;
+    data[roleColumnGroupId] = groupId;
     data[tableColumnCreatedDate] = createdDate;
     data[tableColumnModifiedDate] = modifiedDate;
     return data;
