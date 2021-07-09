@@ -1,13 +1,14 @@
 import 'package:mafia/data/model/player/occupation.dart' as data;
 import 'package:mafia/domain/model/player/occupation.dart' as domain;
-import 'package:mafia/domain/model/player/player.dart';
-import 'package:mafia/domain/model/role/role.dart';
+
+import './player.dart';
+import './role.dart';
 
 extension ToDomain on data.Occupation {
-  domain.Occupation toDomain(Player player, Role role) => domain.Occupation(
+  domain.Occupation toDomain() => domain.Occupation(
         id,
-        player,
-        role,
+        player!.toDomain(),
+        role!.toDomain(),
         createdDate,
         modifiedDate,
       );
