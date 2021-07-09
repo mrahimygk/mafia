@@ -1,32 +1,15 @@
 import 'package:mafia/app/di.dart';
-import 'package:mafia/data/api/coin/coins_api.dart';
-import 'package:mafia/data/api/coin/exchange_rate_api.dart';
-import 'package:mafia/data/api/posts_api.dart';
-import 'package:mafia/data/cache/coin/coins_cache.dart';
-import 'package:mafia/data/cache/coin/exchange_rate_cache.dart';
+import 'package:mafia/data/cache/player/player_cache.dart';
 import 'package:mafia/data/cache/role/group_cache.dart';
 import 'package:mafia/data/cache/role/role_cache.dart';
 import 'package:mafia/data/db/dao/group_dao.dart';
+import 'package:mafia/data/db/dao/player_dao.dart';
 import 'package:mafia/data/db/dao/role_dao.dart';
-import 'package:mafia/repository/coins/coins_repository.dart';
-import 'package:mafia/repository/coins/exchange_rates_repository.dart';
-import 'package:mafia/repository/posts_repository.dart';
+import 'package:mafia/repository/player/player_repository.dart';
 import 'package:mafia/repository/role/group_repository.dart';
 import 'package:mafia/repository/role/role_repository.dart';
 
 void registerRepositoryModule() {
-  serviceLocator.registerFactory<PostsRepository>(
-      () => PostsRepositoryImpl(serviceLocator.get<PostsApi>()));
-
-  serviceLocator.registerFactory<CoinsRepository>(() => CoinsRepositoryImpl(
-      serviceLocator.get<CoinsApi>(), serviceLocator.get<CoinsCache>()));
-
-  serviceLocator.registerFactory<ExchangeRatesRepository>(
-      () => ExchangeRatesRepositoryImpl(
-            serviceLocator.get<ExchangeRateApi>(),
-            serviceLocator.get<ExchangeRateCache>(),
-          ));
-
   serviceLocator.registerFactory<GroupRepository>(() => GroupRepositoryImpl(
         serviceLocator.get<GroupDao>(),
         serviceLocator.get<GroupCache>(),
@@ -35,5 +18,10 @@ void registerRepositoryModule() {
   serviceLocator.registerFactory<RoleRepository>(() => RoleRepositoryImpl(
         serviceLocator.get<RoleDao>(),
         serviceLocator.get<RoleCache>(),
+      ));
+
+  serviceLocator.registerFactory<PlayerRepository>(() => PlayerRepositoryImpl(
+        serviceLocator.get<PlayerDao>(),
+        serviceLocator.get<PlayerCache>(),
       ));
 }
