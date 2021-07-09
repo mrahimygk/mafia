@@ -40,7 +40,7 @@ class _RoleItemWidgetState extends State<RoleItemWidget> {
             border: Border(),
             borderRadius: BorderRadius.all(Radius.circular(6.0)),
           ),
-          padding: EdgeInsets.all(6.0),
+          padding: EdgeInsets.all(12.0),
           child: Text(
             "${widget.item.name.tr()}",
             style: TextStyle(fontWeight: FontWeight.bold),
