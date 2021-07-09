@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart' as localization;
 import 'package:flutter/material.dart';
 
 class ApiErrorWidget extends StatelessWidget {
@@ -17,7 +18,7 @@ class ApiErrorWidget extends StatelessWidget {
           Column(
             children: [
               Icon(Icons.error),
-              Text("Error", style: TextStyle(fontWeight: FontWeight.bold),),
+              Text("error".tr(), style: TextStyle(fontWeight: FontWeight.bold),),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(errorText),
@@ -26,7 +27,7 @@ class ApiErrorWidget extends StatelessWidget {
                   onPressed: () {
                     onRetryClick();
                   },
-                  child: Text("Retry"))
+                  child: Text("retry".tr()))
             ],
           )
         ],
