@@ -52,7 +52,13 @@ class PlayerListPage extends BasePage<PlayerListCubit, PlayerListState, void> {
           }
 
           if (state is PlayerListNoDataState) {
-            return Text("No data, add players");
+            return Center(child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text("No data, add players"),
+                IconButton(icon: Icon(Icons.add_circle_rounded), onPressed: (){})
+              ],
+            ));
           }
 
           if (state is PlayerListErrorState) {
