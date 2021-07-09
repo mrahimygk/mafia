@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mafia/app/di.dart';
 import 'package:mafia/common/base/base_page.dart';
 import 'package:mafia/common/widgets/api_error_widget.dart';
-import 'package:mafia/common/widgets/drawer.dart';
+import 'package:mafia/common/widgets/empty_list_widget.dart';
 import 'package:mafia/data/model/role/role.dart';
 import 'package:mafia/feature/role/logic/role_list_cubit.dart';
 
@@ -52,7 +52,11 @@ class RoleListPage extends BasePage<RoleListCubit, RoleListState, void> {
           }
 
           if (state is RoleListNoDataState) {
-            return Text("No data, add roles");
+            return Center(
+              child: EmptyListWidget("addRoles", () {
+                //TODO: add players dialog
+              }),
+            );
           }
 
           if (state is RoleListErrorState) {
@@ -84,21 +88,41 @@ class RoleListPage extends BasePage<RoleListCubit, RoleListState, void> {
 
   Widget _buildRoleListView(
       List<Role> roles, TextDirection direction, bool isDarkMode) {
-    return GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 4,
-          childAspectRatio: 0.5,
-        ),
-        itemCount: roles.length,
-        itemBuilder: (context, index) {
-          final item = roles[index];
-          return GestureDetector(
-            onTapUp: (d) {},
+    return SingleChildScrollView(
+      child: Wrap(
+        children: _buildRoleChildren(roles, direction, isDarkMode),
+      ),
+    );
+  }
+
+  List<Widget> _buildRoleChildren(
+      List<Role> roles, TextDirection direction, bool isDarkMode) {
+    final List<Widget> list = [];
+    roles.forEach((item) {
+      list.add(GestureDetector(
+        onTapUp: (d) {},
+        child: Padding(
+          padding: const EdgeInsets.all(6.0),
+          child: Container(
+            decoration: BoxDecoration(
+              color: item.groupId == 1
+                  ? Colors.red.shade100
+                  : item.groupId == 2
+                      ? Colors.green.shade100
+                      : Colors.yellow.shade100,
+              border: Border(),
+              borderRadius: BorderRadius.all(Radius.circular(6.0)),
+            ),
+            padding: EdgeInsets.all(6.0),
             child: Text(
-              "${item.name} (${item.id})",
+              "${item.name.tr()}",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-          );
-        });
+          ),
+        ),
+      ));
+    });
+
+    return list;
   }
 }
