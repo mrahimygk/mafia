@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mafia/app/di.dart';
 import 'package:mafia/common/base/base_page.dart';
 import 'package:mafia/common/widgets/api_error_widget.dart';
-import 'package:mafia/common/widgets/drawer.dart';
 import 'package:mafia/feature/lists/data/items.dart';
 import 'package:mafia/feature/lists/logic/all_list_cubit.dart';
 
