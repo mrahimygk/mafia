@@ -63,7 +63,7 @@ class PlayerRepositoryImpl extends PlayerRepository {
 
     final ApiResource<int> data = await dao
         .insert(dat.Player(
-            0,
+            -1,
             name,
             1,
             null,
