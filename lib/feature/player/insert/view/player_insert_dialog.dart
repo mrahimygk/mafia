@@ -22,42 +22,39 @@ class PlayerInsertDialog
               previousState != currentState;
         },
         builder: (BuildContext context, PlayerInsertState state) {
-          return StatefulBuilder(
-              builder: (BuildContext context, StateSetter setState) {
-            return AlertDialog(
-              title: Text("addPlayer".tr()),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextFormField(
-                    controller: controller,
-                    decoration: InputDecoration(
-                      icon: Icon(Icons.person),
-                      labelText: "playerName".tr(),
-                      helperText: "playerName".tr(),
-                    ),
+          return AlertDialog(
+            title: Text("addPlayer".tr()),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextFormField(
+                  controller: controller,
+                  decoration: InputDecoration(
+                    icon: Icon(Icons.person),
+                    labelText: "playerName".tr(),
+                    helperText: "playerName".tr(),
                   ),
-                  if (state is PlayerInsertInitialState)
-                    ElevatedButton(
-                        onPressed: () {
-                          _cubit.insertPlayer(controller.text.toString());
-                        },
-                        child: Text("add".tr()))
-                  else
-                    state is PlayerInsertLoadingState
-                        ? Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: CircularProgressIndicator(),
-                          )
-                        : ElevatedButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: Text("close".tr()))
-                ],
-              ),
-            );
-          });
+                ),
+                if (state is PlayerInsertInitialState)
+                  ElevatedButton(
+                      onPressed: () {
+                        _cubit.insertPlayer(controller.text.toString());
+                      },
+                      child: Text("add".tr()))
+                else
+                  state is PlayerInsertLoadingState
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CircularProgressIndicator(),
+                        )
+                      : ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text("close".tr()))
+              ],
+            ),
+          );
         });
   }
 
