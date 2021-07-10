@@ -16,6 +16,8 @@ abstract class PlayerRepository {
   Stream<ApiResource<List<dom.Player>>> getPlayers();
 
   Stream<ApiResource<dom.Player>> getPlayer(int id);
+
+  Stream<ApiResource<int>> insertPlayer(String name);
 }
 
 class PlayerRepositoryImpl extends PlayerRepository {
@@ -48,6 +50,27 @@ class PlayerRepositoryImpl extends PlayerRepository {
             .then((dat.Player? value) {
       memoryCache.putPlayer(value);
       return ApiResource(Status.SUCCESS, value?.toDomain(), null);
+    }).onError((error, stackTrace) {
+      return ApiResource(Status.ERROR, null, (error as DioError).message);
+    });
+
+    yield data;
+  }
+
+  @override
+  Stream<ApiResource<int>> insertPlayer(String name) async* {
+    yield ApiResource(Status.LOADING, null, null);
+
+    final ApiResource<int> data = await dao
+        .insert(dat.Player(
+            0,
+            name,
+            1,
+            null,
+            DateTime.now().millisecondsSinceEpoch,
+            DateTime.now().millisecondsSinceEpoch))
+        .then((int value) {
+      return ApiResource(Status.SUCCESS, value, null);
     }).onError((error, stackTrace) {
       return ApiResource(Status.ERROR, null, (error as DioError).message);
     });
