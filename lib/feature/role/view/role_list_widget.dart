@@ -90,6 +90,9 @@ class RoleListWidget extends BasePage<RoleListCubit, RoleListState, void> {
       List<Role> roles, TextDirection direction, bool isDarkMode) {
     final List<Widget> list = [];
     roles.forEach((item) {
+      if (item.name == "mafia" || item.name == "citizen") {
+        item.isSelected = true;
+      }
       list.add(SelectableItemWidget(item: item));
     });
 
