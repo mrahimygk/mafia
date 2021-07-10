@@ -1,5 +1,6 @@
 import 'package:mafia/app/di.dart';
 import 'package:mafia/domain/usecase/player/get_players_usecase.dart';
+import 'package:mafia/domain/usecase/player/insert_player_usecase.dart';
 import 'package:mafia/domain/usecase/role/get_group_by_id_usecase.dart';
 import 'package:mafia/domain/usecase/role/get_groups_usecase.dart';
 import 'package:mafia/domain/usecase/role/get_role_by_id_usecase.dart';
@@ -24,4 +25,7 @@ void registerUseCaseModule() {
 
   serviceLocator.registerFactory<GetPlayersUseCase>(
       () => GetPlayersUseCaseImpl(serviceLocator.get<PlayerRepository>()));
+
+  serviceLocator.registerFactory<InsertPlayerUseCase>(
+      () => InsertPlayerUseCaseImpl(serviceLocator.get<PlayerRepository>()));
 }
