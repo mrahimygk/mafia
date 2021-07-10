@@ -48,7 +48,26 @@ class _SelectableItemWidgetState extends State<SelectableItemWidget> {
           padding: EdgeInsets.all(12.0),
           child: Text(
             "${widget.item is Role ? widget.item.name.toString().tr() : widget.item is Player ? widget.item.name : ""}",
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: widget.item is Role
+                  ? widget.item.group.id == 1
+                      ? widget.item.isSelected
+                          ? Colors.white
+                          : Colors.grey.shade700
+                      : widget.item.group.id == 2
+                          ? widget.item.isSelected
+                              ? Colors.white
+                              : Colors.grey.shade700
+                          : widget.item.isSelected
+                              ? Colors.blue
+                              : Colors.grey.shade700
+                  : widget.item is Player
+                      ? widget.item.isSelected
+                          ? Colors.white
+                          : Colors.grey.shade700
+                      : Colors.black,
+            ),
           ),
         ),
       ),
