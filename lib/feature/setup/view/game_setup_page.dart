@@ -9,6 +9,7 @@ import 'package:mafia/common/widgets/empty_list_widget.dart';
 import 'package:mafia/feature/player/view/player_list_widget.dart';
 import 'package:mafia/feature/role/view/role_list_widget.dart';
 import 'package:mafia/feature/setup/logic/game_setup_cubit.dart';
+import 'package:mafia/navigation/routes.dart';
 
 class GameSetupPage extends BasePage<GameSetupCubit, GameSetupState, void> {
   final GameSetupCubit _cubit = serviceLocator.get<GameSetupCubit>();
@@ -43,7 +44,7 @@ class GameSetupPage extends BasePage<GameSetupCubit, GameSetupState, void> {
         },
         builder: (BuildContext context, GameSetupState state) {
           if (state is GameSetupInitialState) {
-            return _buildGameSetupView(direction, isDarkMode);
+            return _buildGameSetupView(direction, isDarkMode, context);
           }
 
           if (state is GameSetupLoadingState) {
@@ -75,41 +76,57 @@ class GameSetupPage extends BasePage<GameSetupCubit, GameSetupState, void> {
   @override
   GameSetupCubit getPageBloc() => _cubit;
 
-  Widget _buildGameSetupView(TextDirection direction, bool isDarkMode) {
+  Widget _buildGameSetupView(
+      TextDirection direction, bool isDarkMode, BuildContext context) {
     final roleListWidget = RoleListWidget(onToggleTheme, onDrawerItemClick);
+    final height = MediaQuery.of(context).size.height;
     return Stack(
       children: [
         Container(
-          height: 600,
+          height: height,
           child: SingleChildScrollView(
             child: Column(
               children: [
                 ListTile(
                   title: Text("players".tr()),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    size: 20,
+                  ),
+                  onTap: () {
+                    Navigator.pushNamed(context, NavigationRoutes.PLAYER_LIST);
+                  },
                 ),
                 Container(
-                    height: 100,
+                    height: height / 4,
                     child: PlayerListWidget(onToggleTheme, onDrawerItemClick)),
                 ListTile(
                   title: Text("roles".tr()),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    size: 20,
+                  ),
+                  onTap: () {
+                    Navigator.pushNamed(context, NavigationRoutes.ROLE_LIST);
+                  },
                 ),
-                Container(height: 200, child: roleListWidget),
+                Container(
+                  height: height / 2.5,
+                  child: roleListWidget,
+                ),
               ],
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 18.0),
-          child: Align(
-            alignment: Alignment.bottomCenter,
-            child: ElevatedButton(
-              child: Text("toss".tr()),
-              onPressed: () {
-                roleListWidget.getSelectedRoles()?.forEach((element) {
-                  print(element.name);
-                });
-              },
-            ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: ElevatedButton(
+            child: Text("toss".tr()),
+            onPressed: () {
+              roleListWidget.getSelectedRoles()?.forEach((element) {
+                print(element.name);
+              });
+            },
           ),
         )
       ],
