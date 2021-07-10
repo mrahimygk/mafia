@@ -49,7 +49,7 @@ class Player {
 
   Map<String, dynamic> toMap() {
     final data = Map<String, dynamic>();
-    data[playerColumnId] = id;
+    data[playerColumnId] = id <= 0 ? null : id;
     data[playerColumnName] = name;
     data[playerColumnScope] = scopeId;
     data[tableColumnCreatedDate] = createdDate;
