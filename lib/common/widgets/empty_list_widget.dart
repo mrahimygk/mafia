@@ -13,7 +13,7 @@ class EmptyListWidget extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text("${"noData".tr()}, ${listSubject.tr()}"),
-        IconButton(icon: Icon(Icons.add_circle_rounded), onPressed: () {})
+        IconButton(icon: Icon(Icons.add_circle_rounded), onPressed: onAddClick)
       ],
     );
   }
