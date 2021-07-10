@@ -7,7 +7,7 @@ import 'package:mafia/common/widgets/api_error_widget.dart';
 import 'package:mafia/common/widgets/drawer.dart';
 import 'package:mafia/common/widgets/empty_list_widget.dart';
 import 'package:mafia/feature/player/view/player_list_widget.dart';
-import 'package:mafia/feature/role/view/role_list_widget.dart';
+import 'package:mafia/feature/role/view/role_selectable_wrap_widget.dart';
 import 'package:mafia/feature/setup/logic/game_setup_cubit.dart';
 import 'package:mafia/navigation/routes.dart';
 
@@ -78,7 +78,7 @@ class GameSetupPage extends BasePage<GameSetupCubit, GameSetupState, void> {
 
   Widget _buildGameSetupView(
       TextDirection direction, bool isDarkMode, BuildContext context) {
-    final roleListWidget = RoleListWidget(onToggleTheme, onDrawerItemClick);
+    final roleListWidget = RoleSelectableWrapWidget(onToggleTheme, onDrawerItemClick);
     final height = MediaQuery.of(context).size.height;
     return Stack(
       children: [

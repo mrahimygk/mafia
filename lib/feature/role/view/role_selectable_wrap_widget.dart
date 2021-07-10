@@ -8,13 +8,13 @@ import 'package:mafia/domain/model/role/role.dart';
 import 'package:mafia/feature/role/logic/role_list_cubit.dart';
 import 'package:mafia/common/widgets/selectable_item_widget.dart';
 
-class RoleListWidget extends BasePage<RoleListCubit, RoleListState, void> {
+class RoleSelectableWrapWidget extends BasePage<RoleListCubit, RoleListState, void> {
   final RoleListCubit _cubit = serviceLocator.get<RoleListCubit>();
 
   final VoidCallback onToggleTheme;
   final Function(int type) onDrawerItemClick;
 
-  RoleListWidget(this.onToggleTheme, this.onDrawerItemClick, {Key? key})
+  RoleSelectableWrapWidget(this.onToggleTheme, this.onDrawerItemClick, {Key? key})
       : super(key: key) {
     _cubit.getRoleList();
   }

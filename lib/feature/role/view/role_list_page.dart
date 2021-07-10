@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart' as localization;
 import 'package:flutter/material.dart';
-import 'package:mafia/feature/role/view/role_list_widget.dart';
+import 'package:mafia/feature/role/view/role_selectable_wrap_widget.dart';
 
 class RoleListPage extends StatelessWidget {
   final VoidCallback onToggleTheme;
@@ -15,7 +15,7 @@ class RoleListPage extends StatelessWidget {
       appBar: AppBar(
         title: Text("roleList".tr()),
       ),
-      body: RoleListWidget(
+      body: RoleSelectableWrapWidget(
         onToggleTheme,
         onDrawerItemClick,
       ),
