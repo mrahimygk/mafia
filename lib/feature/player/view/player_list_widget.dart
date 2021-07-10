@@ -45,7 +45,7 @@ class PlayerListWidget
         if (state is PlayerListNoDataState) {
           return Center(
             child: EmptyListWidget("addPlayers", () {
-              //TODO: add players dialog
+              showInsertPlayersDialog(context);
             }),
           );
         }
@@ -93,13 +93,18 @@ class PlayerListWidget
     list.add(IconButton(
         icon: Icon(Icons.add_circle_rounded),
         onPressed: () {
-          showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return PlayerInsertDialog();
-              });
+          showInsertPlayersDialog(context);
         }));
 
     return list;
+  }
+
+  void showInsertPlayersDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return PlayerInsertDialog();
+      },
+    );
   }
 }
