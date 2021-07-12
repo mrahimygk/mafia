@@ -18,6 +18,8 @@
   "add": "Add",
   "close": "Close",
   "addPlayer": "Add Player",
+  "addAnotherPlayer": "Add Another Player",
+  "hasBeenAddedToPlayers": "has been added to players",
   "playerName": "Player Name",
   "mafiaGroup": "Mafia Group",
   "citizenGroup": "Citizens",
