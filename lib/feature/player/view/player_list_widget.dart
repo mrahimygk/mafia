@@ -92,19 +92,21 @@ class PlayerListWidget
 
     list.add(IconButton(
         icon: Icon(Icons.add_circle_rounded),
-        onPressed: () {
-          showInsertPlayersDialog(context);
+        onPressed: () async {
+          final insertedIds = await showInsertPlayersDialog(context);
+          if (insertedIds == null) {
+          } else if (insertedIds is Set<int>) {
+            _cubit.checkForNewPlayers(insertedIds);
+          }
         }));
 
     return list;
   }
 
-  void showInsertPlayersDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return PlayerInsertDialog();
-      },
-    );
-  }
+  Future<dynamic> showInsertPlayersDialog(BuildContext context) => showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return PlayerInsertDialog();
+        },
+      );
 }
