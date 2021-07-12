@@ -3,4 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 abstract class PageCubit<T extends WidgetState> extends Cubit<T> {
   PageCubit(T initialState) : super(initialState);
+
+  void resetState(T state) {
+    emit(state);
+  }
 }
