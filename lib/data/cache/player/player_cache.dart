@@ -3,6 +3,8 @@ import 'package:mafia/data/model/player/player.dart';
 abstract class PlayerCache {
   Future<List<Player>?>? getPlayers();
 
+  Future<List<Player>?>? getPlayersByIds(List<int> ids);
+
   Future<Player?>? getPlayer(int id);
 
   void putPlayers(List<Player>? list);
@@ -16,6 +18,17 @@ class PlayerCacheImpl extends PlayerCache {
   @override
   Future<List<Player>>? getPlayers() =>
       cache == null ? null : Future.value(cache!.values.toList());
+
+  @override
+  Future<List<Player>>? getPlayersByIds(List<int> ids) {
+    final data =
+        cache!.values.where((element) => ids.contains(element.id)).toList();
+    return cache == null
+        ? null
+        : data.isEmpty
+            ? null
+            : Future.value(data);
+  }
 
   @override
   void putPlayers(List<Player>? list) {
