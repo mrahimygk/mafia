@@ -62,7 +62,12 @@ class PlayerListWidget
 
         if (state is PlayerListDataReceivedState) {
           return _buildPlayerListView(
-              state.players, direction, isDarkMode, context);
+              state.players, direction, isDarkMode, context, false);
+        }
+
+        if (state is PlayerListDataRemovedState) {
+          return _buildPlayerListView(
+              state.players, direction, isDarkMode, context, true);
         }
 
         //throw Exception("Please handle all states above $state");
@@ -75,16 +80,17 @@ class PlayerListWidget
   PlayerListCubit getPageBloc() => _cubit;
 
   Widget _buildPlayerListView(List<Player> players, TextDirection direction,
-      bool isDarkMode, BuildContext context) {
+      bool isDarkMode, BuildContext context, bool isInPhobiaState) {
     return SingleChildScrollView(
       child: Wrap(
-        children: _buildRoleChildren(players, direction, isDarkMode, context),
+        children: _buildPlayerChildren(
+            players, direction, isDarkMode, context, isInPhobiaState),
       ),
     );
   }
 
-  List<Widget> _buildRoleChildren(List<Player> items, TextDirection direction,
-      bool isDarkMode, BuildContext context) {
+  List<Widget> _buildPlayerChildren(List<Player> items, TextDirection direction,
+      bool isDarkMode, BuildContext context, bool isInPhobiaState) {
     final List<Widget> list = [];
     final List<GlobalKey<SelectableItemWidgetState>> keys = [];
     items.forEach((item) {
@@ -101,18 +107,19 @@ class PlayerListWidget
           });
         },
         onRemovePhobiaState: () {
-          keys.forEach((key) {
-            if (key.currentState != null) {
-              key.currentState!.removePhobiaState();
-            }
-          });
+          removePhobiaStates(keys);
         },
+        onDeleteItemClick: () {
+          _cubit.removePlayer(item);
+        },
+        isInPhobiaState: isInPhobiaState,
       ));
     });
 
     list.add(IconButton(
         icon: Icon(Icons.add_circle_rounded),
         onPressed: () async {
+          removePhobiaStates(keys);
           final insertedIds = await showInsertPlayersDialog(context);
           if (insertedIds == null) {
           } else if (insertedIds is Set<int>) {
@@ -120,6 +127,9 @@ class PlayerListWidget
           }
         }));
 
+    if (list.length < 2) {
+      _cubit.getPlayerList();
+    }
     return list;
   }
 
@@ -129,4 +139,12 @@ class PlayerListWidget
           return PlayerInsertDialog();
         },
       );
+
+  void removePhobiaStates(List<GlobalKey<SelectableItemWidgetState>> keys) {
+    keys.forEach((key) {
+      if (key.currentState != null) {
+        key.currentState!.removePhobiaState();
+      }
+    });
+  }
 }
