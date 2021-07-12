@@ -11,6 +11,8 @@ class PlayerInsertDialog
 
   final controller = TextEditingController();
 
+  final Set<int> insertedIds = Set();
+
   @override
   Widget buildWidget(
       BuildContext context, TextDirection direction, bool isDarkMode) {
@@ -22,6 +24,9 @@ class PlayerInsertDialog
               previousState != currentState;
         },
         builder: (BuildContext context, PlayerInsertState state) {
+          if (state is PlayerInsertDataReceivedState) {
+            insertedIds.add(state.insertedId);
+          }
           return AlertDialog(
             title: state is PlayerInsertInitialState
                 ? Text("addPlayer".tr())
@@ -66,7 +71,7 @@ class PlayerInsertDialog
                                     padding: const EdgeInsets.all(8.0),
                                     child: ElevatedButton(
                                         onPressed: () {
-                                          Navigator.pop(context);
+                                          Navigator.pop(context, insertedIds);
                                         },
                                         child: Text("close".tr())),
                                   ),
