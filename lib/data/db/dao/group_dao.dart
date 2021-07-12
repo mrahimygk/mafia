@@ -104,6 +104,12 @@ class GroupDao implements BaseDao<Group> {
     // TODO: implement getAllFromDbByIds
     throw UnimplementedError();
   }
+
+  @override
+  Future deleteByIds(List<int> ids) {
+    // TODO: implement deleteByIds
+    throw UnimplementedError();
+  }
 }
 
 const groupTable = 'groupTable';

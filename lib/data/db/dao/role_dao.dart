@@ -111,6 +111,12 @@ class RoleDao implements BaseDao<Role> {
     throw UnimplementedError();
   }
 
+  @override
+  Future deleteByIds(List<int> ids) {
+    // TODO: implement deleteByIds
+    throw UnimplementedError();
+  }
+
   Future<List<Role>?>? getByGroupId(int gid) async {
     final db = await databaseProvider!.db();
     List<Map<String, dynamic>> map = await db.query(roleTable,

@@ -10,6 +10,7 @@ abstract class BaseDao<T>{
   Future delete(T data);
   Future<List<T>?>? getAllFromDb();
   Future<List<T>?>? getAllFromDbByIds(List<int> ids);
+  Future deleteByIds(List<int> ids);
   Future<T?>? getFromDb(int id);
   Future update(T data);
 }

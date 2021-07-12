@@ -1,6 +1,7 @@
 import 'package:mafia/data/db/dao/player_scope_dao.dart';
 import 'package:mafia/data/model/player/player.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:mafia/common/ext/sqlite_query.dart';
 
 import '../database_provider.dart';
 import 'dao.dart';
@@ -58,6 +59,16 @@ class PlayerDao implements BaseDao<Player> {
   }
 
   @override
+  Future deleteByIds(List<int> ids) async {
+    final db = await databaseProvider!.db();
+    await db.delete(
+      playerTable,
+      where: '$playerColumnId in ${ids.makeWhereQuery()}',
+      whereArgs: ids,
+    );
+  }
+
+  @override
   Future<List<Player>?>? getAllFromDb() async {
     final db = await databaseProvider!.db();
     List<Map<String, dynamic>> map = await db.query(
@@ -104,12 +115,6 @@ class PlayerDao implements BaseDao<Player> {
 
   @override
   Future<List<Player>?>? getAllFromDbByIds(List<int> ids) async {
-    final StringBuffer whereList = StringBuffer("(");
-    ids.forEach((id) {
-      whereList.write("?, ");
-    });
-    final tmp = whereList.toString();
-    final whereListString = tmp.replaceFirst(",", ")", tmp.length - 2);
     final db = await databaseProvider!.db();
     List<Map<String, dynamic>> map = await db.query(playerTable,
         columns: [
@@ -119,7 +124,7 @@ class PlayerDao implements BaseDao<Player> {
           tableColumnCreatedDate,
           tableColumnModifiedDate,
         ],
-        where: '$playerColumnId in $whereListString',
+        where: '$playerColumnId in ${ids.makeWhereQuery()}',
         whereArgs: ids);
     if (map.length > 0) {
       return await Future.wait(fromList(map).map((element) async {

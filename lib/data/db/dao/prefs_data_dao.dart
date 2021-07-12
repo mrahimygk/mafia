@@ -68,6 +68,12 @@ class PrefsDataDao implements BaseDao<PrefsData> {
     // TODO: implement getAllFromDbByIds
     throw UnimplementedError();
   }
+
+  @override
+  Future deleteByIds(List<int> ids) {
+    // TODO: implement deleteByIds
+    throw UnimplementedError();
+  }
 }
 
 const prefsDataTable = 'prefsData';

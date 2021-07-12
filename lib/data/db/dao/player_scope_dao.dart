@@ -104,6 +104,12 @@ class PlayerScopeDao implements BaseDao<PlayerScope> {
     // TODO: implement getAllFromDbByIds
     throw UnimplementedError();
   }
+
+  @override
+  Future deleteByIds(List<int> ids) {
+    // TODO: implement deleteByIds
+    throw UnimplementedError();
+  }
 }
 
 const playerScopeTable = 'playerScope';

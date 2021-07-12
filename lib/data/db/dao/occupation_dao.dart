@@ -111,6 +111,12 @@ class OccupationDao implements BaseDao<Occupation> {
     throw UnimplementedError();
   }
 
+  @override
+  Future deleteByIds(List<int> ids) {
+    // TODO: implement deleteByIds
+    throw UnimplementedError();
+  }
+
   Future<List<Role?>?>? getRolesForPlayer(int id) async {
     final db = await databaseProvider!.db();
     List<Map<String, dynamic>> map = await db.query(occupationTable,
