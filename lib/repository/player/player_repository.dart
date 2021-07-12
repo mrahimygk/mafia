@@ -15,6 +15,8 @@ abstract class PlayerRepository {
 
   Stream<ApiResource<List<dom.Player>>> getPlayers();
 
+  Stream<ApiResource<List<dom.Player>>> getPlayersByIds(List<int> ids);
+
   Stream<ApiResource<dom.Player>> getPlayer(int id);
 
   Stream<ApiResource<int>> insertPlayer(String name);
@@ -30,6 +32,23 @@ class PlayerRepositoryImpl extends PlayerRepository {
 
     final ApiResource<List<dom.Player>> data =
         await (memoryCache.getPlayers() ?? dao.getAllFromDb())!
+            .then((List<dat.Player>? value) {
+      memoryCache.putPlayers(value);
+      return ApiResource(
+          Status.SUCCESS, value?.map((e) => e.toDomain()).toList(), null);
+    }).onError((error, stackTrace) {
+      return ApiResource(Status.ERROR, null, (error as DioError).message);
+    });
+
+    yield data;
+  }
+
+  @override
+  Stream<ApiResource<List<dom.Player>>> getPlayersByIds(List<int> ids) async* {
+    yield ApiResource(Status.LOADING, null, null);
+
+    final ApiResource<List<dom.Player>> data =
+        await (memoryCache.getPlayersByIds(ids) ?? dao.getAllFromDbByIds(ids))!
             .then((List<dat.Player>? value) {
       memoryCache.putPlayers(value);
       return ApiResource(
