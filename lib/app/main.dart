@@ -7,7 +7,7 @@ import 'package:mafia/common/widgets/drawer.dart';
 import 'package:mafia/data/prefs/app_shared_prefs.dart';
 import 'package:mafia/navigation/manager.dart';
 
-import './app/di.dart' as di;
+import 'package:mafia/app/di.dart' as di;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
