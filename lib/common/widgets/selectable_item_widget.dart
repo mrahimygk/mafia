@@ -116,6 +116,10 @@ class SelectableItemWidgetState extends State<SelectableItemWidget>
     changePhobiaState(true);
   }
 
+  void togglePhobiaState() {
+    changePhobiaState(!isInPhobiaState);
+  }
+
   void removePhobiaState() {
     changePhobiaState(false);
   }
