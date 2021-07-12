@@ -63,8 +63,8 @@ class PlayerInsertDialog
                         ? Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Text("'${controller.text.toString()}'"),
-                              Text("hasBeenAddedToPlayers".tr()),
+                              Text("'${controller.text.toString()}'",
+                              style: TextStyle(fontSize: 24),),
                               Row(
                                 children: [
                                   Padding(
