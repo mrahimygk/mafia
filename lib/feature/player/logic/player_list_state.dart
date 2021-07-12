@@ -37,6 +37,15 @@ class PlayerListDataReceivedState extends PlayerListState {
   List<Object?> get props => [players];
 }
 
+class PlayerListDataRemovedState extends PlayerListState {
+  final List<Player> players;
+
+  PlayerListDataRemovedState(this.players);
+
+  @override
+  List<Object?> get props => [players];
+}
+
 class PlayerListDataFilledState extends PlayerListState {
   final List<Player> players;
 
