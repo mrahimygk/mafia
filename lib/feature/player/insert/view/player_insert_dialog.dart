@@ -23,37 +23,68 @@ class PlayerInsertDialog
         },
         builder: (BuildContext context, PlayerInsertState state) {
           return AlertDialog(
-            title: Text("addPlayer".tr()),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextFormField(
-                  controller: controller,
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.person),
-                    labelText: "playerName".tr(),
-                    helperText: "playerName".tr(),
-                  ),
-                ),
-                if (state is PlayerInsertInitialState)
-                  ElevatedButton(
-                      onPressed: () {
-                        _cubit.insertPlayer(controller.text.toString());
-                      },
-                      child: Text("add".tr()))
-                else
-                  state is PlayerInsertLoadingState
-                      ? Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: CircularProgressIndicator(),
-                        )
-                      : ElevatedButton(
+            title: state is PlayerInsertInitialState
+                ? Text("addPlayer".tr())
+                : state is PlayerInsertLoadingState
+                    ? Text("addPlayer".tr())
+                    : state is PlayerInsertDataReceivedState
+                        ? Text("playerHasBeenAdded".tr())
+                        : Container(),
+            content: state is PlayerInsertInitialState
+                ? Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextFormField(
+                        controller: controller,
+                        decoration: InputDecoration(
+                          icon: Icon(Icons.person),
+                          labelText: "playerName".tr(),
+                          helperText: "playerName".tr(),
+                        ),
+                      ),
+                      ElevatedButton(
                           onPressed: () {
-                            Navigator.pop(context);
+                            _cubit.insertPlayer(controller.text.toString());
                           },
-                          child: Text("close".tr()))
-              ],
-            ),
+                          child: Text("add".tr())),
+                    ],
+                  )
+                : state is PlayerInsertLoadingState
+                    ? Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: CircularProgressIndicator(),
+                      )
+                    : state is PlayerInsertDataReceivedState
+                        ? Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text("'${controller.text.toString()}'"),
+                              Text("hasBeenAddedToPlayers".tr()),
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text("close".tr())),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: ElevatedButton(
+                                        onPressed: () {
+                                          controller.clear();
+                                          _cubit.resetState(
+                                              PlayerInsertInitialState());
+                                        },
+                                        child: Text("addAnotherPlayer".tr())),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )
+                        : Container(),
           );
         });
   }
