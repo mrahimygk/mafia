@@ -8,12 +8,16 @@ class SelectableItemWidget<T> extends StatefulWidget {
   final T item;
   final VoidCallback? onLongPress;
   final VoidCallback? onRemovePhobiaState;
+  final VoidCallback? onDeleteItemClick;
+  final bool? isInPhobiaState;
 
   const SelectableItemWidget(
       {Key? key,
       required this.item,
       this.onLongPress,
-      this.onRemovePhobiaState})
+      this.onRemovePhobiaState,
+      this.onDeleteItemClick,
+      this.isInPhobiaState})
       : super(key: key);
 
   @override
@@ -29,6 +33,12 @@ class SelectableItemWidgetState extends State<SelectableItemWidget>
   void initState() {
     controller = AnimationController(
         duration: const Duration(milliseconds: 333), vsync: this);
+    isInPhobiaState = widget.isInPhobiaState ?? false;
+    if (isInPhobiaState) {
+      controller?.repeat(reverse: true);
+    } else {
+      controller?.stop();
+    }
     super.initState();
   }
 
@@ -54,58 +64,83 @@ class SelectableItemWidgetState extends State<SelectableItemWidget>
       child: AnimatedBuilder(
         animation: offsetAnimation,
         builder: (BuildContext context, child) {
-          return Transform.rotate(
-            angle: isInPhobiaState ? offsetAnimation.value : 0,
-            child: Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: widget.item is Role
-                      ? widget.item.group.id == 1
-                          ? widget.item.isSelected
-                              ? Colors.red
-                              : Colors.red.shade100
-                          : widget.item.group.id == 2
+          return Stack(
+            children: [
+              Transform.rotate(
+                angle: isInPhobiaState ? offsetAnimation.value : 0,
+                child: Padding(
+                  padding: const EdgeInsets.all(6.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: widget.item is Role
+                          ? widget.item.group.id == 1
                               ? widget.item.isSelected
-                                  ? Colors.green
-                                  : Colors.green.shade100
-                              : widget.item.isSelected
-                                  ? Colors.yellow
-                                  : Colors.yellow.shade100
-                      : widget.item is Player
-                          ? widget.item.isSelected
-                              ? Colors.blueGrey
-                              : Colors.blueGrey.shade100
-                          : Colors.black,
-                  border: Border(),
-                  borderRadius: BorderRadius.all(Radius.circular(6.0)),
-                ),
-                padding: EdgeInsets.all(12.0),
-                child: Text(
-                  "${widget.item is Role ? widget.item.name.toString().tr() : widget.item is Player ? widget.item.name : ""}",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: widget.item is Role
-                        ? widget.item.group.id == 1
-                            ? widget.item.isSelected
-                                ? Colors.white
-                                : Colors.grey.shade700
-                            : widget.item.group.id == 2
+                                  ? Colors.red
+                                  : Colors.red.shade100
+                              : widget.item.group.id == 2
+                                  ? widget.item.isSelected
+                                      ? Colors.green
+                                      : Colors.green.shade100
+                                  : widget.item.isSelected
+                                      ? Colors.yellow
+                                      : Colors.yellow.shade100
+                          : widget.item is Player
+                              ? widget.item.isSelected
+                                  ? Colors.blueGrey
+                                  : Colors.blueGrey.shade100
+                              : Colors.black,
+                      border: Border(),
+                      borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                    ),
+                    padding: EdgeInsets.all(12.0),
+                    child: Text(
+                      "${widget.item is Role ? widget.item.name.toString().tr() : widget.item is Player ? widget.item.name : ""}",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: widget.item is Role
+                            ? widget.item.group.id == 1
                                 ? widget.item.isSelected
                                     ? Colors.white
                                     : Colors.grey.shade700
-                                : widget.item.isSelected
-                                    ? Colors.blue
+                                : widget.item.group.id == 2
+                                    ? widget.item.isSelected
+                                        ? Colors.white
+                                        : Colors.grey.shade700
+                                    : widget.item.isSelected
+                                        ? Colors.blue
+                                        : Colors.grey.shade700
+                            : widget.item is Player
+                                ? widget.item.isSelected
+                                    ? Colors.white
                                     : Colors.grey.shade700
-                        : widget.item is Player
-                            ? widget.item.isSelected
-                                ? Colors.white
-                                : Colors.grey.shade700
-                            : Colors.black,
+                                : Colors.black,
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
+              isInPhobiaState
+                  ? InkWell(
+                      onLongPress: () {
+                        /// this is to prevent removing phobia state on long press
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle, color: Colors.red),
+                        child: Icon(
+                          Icons.close_rounded,
+                          color: Colors.white,
+                        ),
+                      ),
+                      onTap: () {
+                        widget.onDeleteItemClick?.call();
+                      },
+                    )
+                  : Container(
+                      height: 24,
+                      width: 24,
+                    ),
+            ],
           );
         },
       ),
@@ -133,5 +168,11 @@ class SelectableItemWidgetState extends State<SelectableItemWidget>
     } else {
       controller?.stop(canceled: true);
     }
+  }
+
+  @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
   }
 }
