@@ -109,7 +109,7 @@ class PlayerDao implements BaseDao<Player> {
       whereList.write("?, ");
     });
     final tmp = whereList.toString();
-    final whereListString = tmp.replaceFirst(",", ")", tmp.length - 1);
+    final whereListString = tmp.replaceFirst(",", ")", tmp.length - 2);
     final db = await databaseProvider!.db();
     List<Map<String, dynamic>> map = await db.query(playerTable,
         columns: [
