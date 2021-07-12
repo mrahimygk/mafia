@@ -83,11 +83,31 @@ class PlayerListWidget
     );
   }
 
-  List<Widget> _buildRoleChildren(List<Player> roles, TextDirection direction,
+  List<Widget> _buildRoleChildren(List<Player> items, TextDirection direction,
       bool isDarkMode, BuildContext context) {
     final List<Widget> list = [];
-    roles.forEach((item) {
-      list.add(SelectableItemWidget(item: item));
+    final List<GlobalKey<SelectableItemWidgetState>> keys = [];
+    items.forEach((item) {
+      final key = GlobalKey<SelectableItemWidgetState>();
+      keys.add(key);
+      list.add(SelectableItemWidget(
+        item: item,
+        key: key,
+        onLongPress: () {
+          keys.forEach((key) {
+            if (key.currentState != null) {
+              key.currentState!.togglePhobiaState();
+            }
+          });
+        },
+        onRemovePhobiaState: () {
+          keys.forEach((key) {
+            if (key.currentState != null) {
+              key.currentState!.removePhobiaState();
+            }
+          });
+        },
+      ));
     });
 
     list.add(IconButton(
