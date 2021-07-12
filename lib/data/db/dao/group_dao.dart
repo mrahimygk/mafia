@@ -98,6 +98,12 @@ class GroupDao implements BaseDao<Group> {
     }
     return null;
   }
+
+  @override
+  Future<List<Group>?>? getAllFromDbByIds(List<int> ids) {
+    // TODO: implement getAllFromDbByIds
+    throw UnimplementedError();
+  }
 }
 
 const groupTable = 'groupTable';

@@ -98,6 +98,12 @@ class PlayerScopeDao implements BaseDao<PlayerScope> {
     }
     return null;
   }
+
+  @override
+  Future<List<PlayerScope>?>? getAllFromDbByIds(List<int> ids) {
+    // TODO: implement getAllFromDbByIds
+    throw UnimplementedError();
+  }
 }
 
 const playerScopeTable = 'playerScope';

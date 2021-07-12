@@ -101,6 +101,35 @@ class PlayerDao implements BaseDao<Player> {
     }
     return null;
   }
+
+  @override
+  Future<List<Player>?>? getAllFromDbByIds(List<int> ids) async {
+    final StringBuffer whereList = StringBuffer("(");
+    ids.forEach((id) {
+      whereList.write("?, ");
+    });
+    final tmp = whereList.toString();
+    final whereListString = tmp.replaceFirst(",", ")", tmp.length - 1);
+    final db = await databaseProvider!.db();
+    List<Map<String, dynamic>> map = await db.query(playerTable,
+        columns: [
+          playerColumnId,
+          playerColumnName,
+          playerColumnScope,
+          tableColumnCreatedDate,
+          tableColumnModifiedDate,
+        ],
+        where: '$playerColumnId in $whereListString',
+        whereArgs: ids);
+    if (map.length > 0) {
+      return await Future.wait(fromList(map).map((element) async {
+        return element.copyWith(
+          scope: await playerScopeDao.getFromDb(element.scopeId),
+        );
+      }));
+    }
+    return null;
+  }
 }
 
 const playerTable = 'player';

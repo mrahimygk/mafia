@@ -105,6 +105,12 @@ class RoleDao implements BaseDao<Role> {
     return null;
   }
 
+  @override
+  Future<List<Role>?>? getAllFromDbByIds(List<int> ids) {
+    // TODO: implement getAllFromDbByIds
+    throw UnimplementedError();
+  }
+
   Future<List<Role>?>? getByGroupId(int gid) async {
     final db = await databaseProvider!.db();
     List<Map<String, dynamic>> map = await db.query(roleTable,

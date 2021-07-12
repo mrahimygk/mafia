@@ -105,6 +105,12 @@ class OccupationDao implements BaseDao<Occupation> {
     return null;
   }
 
+  @override
+  Future<List<Occupation>?>? getAllFromDbByIds(List<int> ids) {
+    // TODO: implement getAllFromDbByIds
+    throw UnimplementedError();
+  }
+
   Future<List<Role?>?>? getRolesForPlayer(int id) async {
     final db = await databaseProvider!.db();
     List<Map<String, dynamic>> map = await db.query(occupationTable,
