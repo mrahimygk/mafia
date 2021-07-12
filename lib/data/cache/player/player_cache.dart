@@ -1,3 +1,4 @@
+
 import 'package:mafia/data/model/player/player.dart';
 
 abstract class PlayerCache {
@@ -10,6 +11,8 @@ abstract class PlayerCache {
   void putPlayers(List<Player>? list);
 
   void putPlayer(Player? item);
+
+  void removePlayersByIds(List<int> playerIds);
 }
 
 class PlayerCacheImpl extends PlayerCache {
@@ -52,5 +55,12 @@ class PlayerCacheImpl extends PlayerCache {
 
     if (item == null) return;
     cache?[item.id] = item;
+  }
+
+  @override
+  void removePlayersByIds(List<int> playerIds) {
+    playerIds.forEach((element) {
+      cache?.remove(element);
+    });
   }
 }
