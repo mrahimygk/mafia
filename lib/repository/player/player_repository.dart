@@ -20,6 +20,8 @@ abstract class PlayerRepository {
   Stream<ApiResource<dom.Player>> getPlayer(int id);
 
   Stream<ApiResource<int>> insertPlayer(String name);
+
+  Stream<ApiResource<List<int>>> deletePlayers(List<int> playerIds);
 }
 
 class PlayerRepositoryImpl extends PlayerRepository {
@@ -93,6 +95,20 @@ class PlayerRepositoryImpl extends PlayerRepository {
     }).onError((error, stackTrace) {
       return ApiResource(Status.ERROR, null, (error as DioError).message);
     });
+
+    yield data;
+  }
+
+  @override
+  Stream<ApiResource<List<int>>> deletePlayers(List<int> playerIds) async* {
+    yield ApiResource(Status.LOADING, null, null);
+
+    final ApiResource<List<int>> data = await dao.deleteByIds(playerIds).then((value) {
+      memoryCache.removePlayersByIds(playerIds);
+      return ApiResource(Status.SUCCESS, value, null);
+    });/*.onError((error, stackTrace) {
+      return ApiResource(Status.ERROR, null, (error as DioError).message);
+    });*/
 
     yield data;
   }
