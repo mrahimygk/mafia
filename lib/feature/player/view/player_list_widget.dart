@@ -116,16 +116,19 @@ class PlayerListWidget
       ));
     });
 
-    list.add(IconButton(
-        icon: Icon(Icons.add_circle_rounded),
-        onPressed: () async {
-          removePhobiaStates(keys);
-          final insertedIds = await showInsertPlayersDialog(context);
-          if (insertedIds == null) {
-          } else if (insertedIds is Set<int>) {
-            _cubit.checkForNewPlayers(insertedIds);
-          }
-        }));
+    list.add(Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: IconButton(
+          icon: Icon(Icons.add_circle_rounded),
+          onPressed: () async {
+            removePhobiaStates(keys);
+            final insertedIds = await showInsertPlayersDialog(context);
+            if (insertedIds == null) {
+            } else if (insertedIds is Set<int>) {
+              _cubit.checkForNewPlayers(insertedIds);
+            }
+          }),
+    ));
 
     if (list.length < 2) {
       _cubit.getPlayerList();
