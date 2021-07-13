@@ -1,14 +1,15 @@
-import 'package:mafia/feature/player/list/di.dart';
-import 'package:mafia/feature/player/insert/di.dart';
-import 'package:mafia/feature/role/list/di.dart';
-import 'package:mafia/feature/setup/di.dart';
-
 import 'group/di.dart';
 import 'lists/di.dart';
+import 'player/insert/di.dart';
+import 'player/list/di.dart';
+import 'role/details/di.dart';
+import 'role/list/di.dart';
+import 'setup/di.dart';
 
 void registerPageModules() {
   registerPlayerListPage();
   registerRoleListPage();
+  registerRoleDetailsPage();
   registerGroupListPage();
   registerAllListPage();
   registerGameSetupPage();
