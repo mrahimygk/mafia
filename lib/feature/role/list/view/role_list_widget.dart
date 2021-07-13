@@ -7,6 +7,7 @@ import 'package:mafia/common/base/base_page.dart';
 import 'package:mafia/common/widgets/api_error_widget.dart';
 import 'package:mafia/common/widgets/empty_list_widget.dart';
 import 'package:mafia/domain/model/role/role.dart';
+import 'package:mafia/navigation/routes.dart';
 import '../logic/role_list_cubit.dart';
 
 class RoleListWidget extends BasePage<RoleListCubit, RoleListState, void> {
@@ -82,6 +83,9 @@ class RoleListWidget extends BasePage<RoleListCubit, RoleListState, void> {
       final item = roles[index];
       return Card(
         child: ListTile(
+          onTap: (){
+            Navigator.of(context).pushNamed(NavigationRoutes.ROLE_DETAILS, arguments: item);
+          },
           title:  Text(item.name.tr()),
           trailing: Image.asset("$rolesPath/${item.name}_thumb.png", width: 32, height: 32,),
         ),
