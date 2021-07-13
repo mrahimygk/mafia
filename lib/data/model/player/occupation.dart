@@ -55,7 +55,7 @@ class Occupation {
 
   Map<String, dynamic> toMap() {
     final data = Map<String, dynamic>();
-    data[occupationColumnId] = id;
+    data[occupationColumnId] = id <= 0 ? null : id;
     data[occupationColumnPlayerId] = playerId;
     data[occupationColumnRoleId] = roleId;
     data[tableColumnCreatedDate] = createdDate;
