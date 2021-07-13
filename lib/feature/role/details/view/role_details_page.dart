@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart' as localization;
 import 'package:flutter/material.dart';
 import 'package:mafia/domain/model/role/role.dart';
 
@@ -18,9 +17,6 @@ class RoleDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final role = ModalRoute.of(context)?.settings.arguments as Role;
     return Scaffold(
-      appBar: AppBar(
-        title: Text("roleDetails".tr()),
-      ),
       body: RoleDetailsWidget(onToggleTheme, onDrawerItemClick, role),
     );
   }
