@@ -4,9 +4,10 @@ import 'package:mafia/app/di.dart';
 import 'package:mafia/common/base/base_page.dart';
 import 'package:mafia/common/widgets/api_error_widget.dart';
 import 'package:mafia/common/widgets/empty_list_widget.dart';
+import 'package:mafia/common/widgets/selectable_item_widget.dart';
 import 'package:mafia/domain/model/role/role.dart';
 import 'package:mafia/feature/role/logic/role_list_cubit.dart';
-import 'package:mafia/common/widgets/selectable_item_widget.dart';
+import 'package:mafia/navigation/routes.dart';
 
 class RoleSelectableWrapWidget extends BasePage<RoleListCubit, RoleListState, void> {
   final RoleListCubit _cubit = serviceLocator.get<RoleListCubit>();
@@ -58,11 +59,11 @@ class RoleSelectableWrapWidget extends BasePage<RoleListCubit, RoleListState, vo
         }
 
         if (state is RoleListDataReceivedState) {
-          return _buildRoleListView(state.roles, direction, isDarkMode);
+          return _buildRoleListView(state.roles, direction, isDarkMode, context);
         }
 
         if (state is RoleListDataFilledState) {
-          return _buildRoleListView(state.roles, direction, isDarkMode);
+          return _buildRoleListView(state.roles, direction, isDarkMode, context);
         }
 
         throw Exception("Please handle all states above $state");
@@ -74,26 +75,28 @@ class RoleSelectableWrapWidget extends BasePage<RoleListCubit, RoleListState, vo
   RoleListCubit getPageBloc() => _cubit;
 
   Widget _buildRoleListView(
-      List<Role> roles, TextDirection direction, bool isDarkMode) {
+      List<Role> roles, TextDirection direction, bool isDarkMode, BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Wrap(
           alignment: WrapAlignment.spaceBetween,
-          children: _buildRoleChildren(roles, direction, isDarkMode),
+          children: _buildRoleChildren(roles, direction, isDarkMode, context),
         ),
       ),
     );
   }
 
   List<Widget> _buildRoleChildren(
-      List<Role> roles, TextDirection direction, bool isDarkMode) {
+      List<Role> roles, TextDirection direction, bool isDarkMode, BuildContext context) {
     final List<Widget> list = [];
     roles.forEach((item) {
       if (item.name == "mafia" || item.name == "citizen") {
         item.isSelected = true;
       }
-      list.add(SelectableItemWidget(item: item));
+      list.add(SelectableItemWidget(item: item, onLongPress: (){
+        Navigator.pushNamed(context, NavigationRoutes.ROLE_DETAILS, arguments: item);
+      },));
     });
 
     return list;
