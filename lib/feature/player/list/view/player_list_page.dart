@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart' as localization;
 import 'package:flutter/material.dart';
 import 'package:mafia/common/widgets/drawer.dart';
-import 'package:mafia/feature/player/view/player_list_widget.dart';
+import './player_list_widget.dart';
 
 class PlayerListPage extends StatelessWidget {
   final VoidCallback onToggleTheme;

@@ -1,4 +1,4 @@
-import 'package:mafia/feature/player/di.dart';
+import 'package:mafia/feature/player/list/di.dart';
 import 'package:mafia/feature/player/insert/di.dart';
 import 'package:mafia/feature/role/di.dart';
 import 'package:mafia/feature/setup/di.dart';

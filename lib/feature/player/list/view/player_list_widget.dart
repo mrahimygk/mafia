@@ -7,7 +7,7 @@ import 'package:mafia/common/widgets/empty_list_widget.dart';
 import 'package:mafia/common/widgets/selectable_item_widget.dart';
 import 'package:mafia/domain/model/player/player.dart';
 import 'package:mafia/feature/player/insert/view/player_insert_dialog.dart';
-import 'package:mafia/feature/player/logic/player_list_cubit.dart';
+import '../logic/player_list_cubit.dart';
 
 class PlayerListWidget
     extends BasePage<PlayerListCubit, PlayerListState, void> {
