@@ -127,9 +127,13 @@ class SelectableItemWidgetState extends State<SelectableItemWidget>
                       child: Container(
                         decoration: BoxDecoration(
                             shape: BoxShape.circle, color: Colors.red),
-                        child: Icon(
-                          Icons.close_rounded,
-                          color: Colors.white,
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Icon(
+                            Icons.close_rounded,
+                            color: Colors.white,
+                            size: 18,
+                          ),
                         ),
                       ),
                       onTap: () {
