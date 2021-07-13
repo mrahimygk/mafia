@@ -4,7 +4,7 @@ import 'player/insert/di.dart';
 import 'player/list/di.dart';
 import 'role/details/di.dart';
 import 'role/list/di.dart';
-import 'setup/di.dart';
+import 'game/setup/di.dart';
 
 void registerPageModules() {
   registerPlayerListPage();
