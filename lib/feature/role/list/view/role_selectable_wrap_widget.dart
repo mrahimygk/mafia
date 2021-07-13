@@ -6,7 +6,7 @@ import 'package:mafia/common/widgets/api_error_widget.dart';
 import 'package:mafia/common/widgets/empty_list_widget.dart';
 import 'package:mafia/common/widgets/selectable_item_widget.dart';
 import 'package:mafia/domain/model/role/role.dart';
-import 'package:mafia/feature/role/logic/role_list_cubit.dart';
+import '../logic/role_list_cubit.dart';
 import 'package:mafia/navigation/routes.dart';
 
 class RoleSelectableWrapWidget extends BasePage<RoleListCubit, RoleListState, void> {

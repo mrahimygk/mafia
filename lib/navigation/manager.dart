@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mafia/feature/group/view/group_list_page.dart';
 import 'package:mafia/feature/lists/view/all_list_page.dart';
 import 'package:mafia/feature/player/list/view/player_list_page.dart';
-import 'package:mafia/feature/role/view/role_list_page.dart';
+import 'package:mafia/feature/role/list/view/role_list_page.dart';
 import 'package:mafia/feature/setup/view/game_setup_page.dart';
 import 'package:mafia/navigation/routes.dart';
 

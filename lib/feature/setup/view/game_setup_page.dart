@@ -7,7 +7,7 @@ import 'package:mafia/common/widgets/api_error_widget.dart';
 import 'package:mafia/common/widgets/drawer.dart';
 import 'package:mafia/common/widgets/empty_list_widget.dart';
 import 'package:mafia/feature/player/list/view/player_list_widget.dart';
-import 'package:mafia/feature/role/view/role_selectable_wrap_widget.dart';
+import 'package:mafia/feature/role/list/view/role_selectable_wrap_widget.dart';
 import 'package:mafia/feature/setup/logic/game_setup_cubit.dart';
 import 'package:mafia/navigation/routes.dart';
 
