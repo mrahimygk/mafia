@@ -156,8 +156,8 @@ final roleList = [
   ),
   Role(
     18,
-    "physician",
-    "physicianDescription",
+    "medic",
+    "medicDescription",
     2,
     null,
     DateTime.now().millisecondsSinceEpoch,
