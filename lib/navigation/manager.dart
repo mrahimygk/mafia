@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mafia/feature/game/cast/view/game_cast_page.dart';
 import 'package:mafia/feature/group/view/group_list_page.dart';
 import 'package:mafia/feature/lists/view/all_list_page.dart';
 import 'package:mafia/feature/player/list/view/player_list_page.dart';
@@ -56,6 +57,7 @@ class NavigationManagerImpl extends NavigationManager {
         NavigationRoutes.ROLE_LIST: (context) => RoleListPage(onToggleTheme, onDrawerItemClick),
         NavigationRoutes.ROLE_DETAILS: (context) => RoleDetailsPage(onToggleTheme, onDrawerItemClick),
         NavigationRoutes.GROUP_LIST: (context) => GroupListPage(onToggleTheme, onDrawerItemClick),
+        NavigationRoutes.GAME_CAST: (context) => GameCastPage(onToggleTheme, onDrawerItemClick),
         NavigationRoutes.LISTS: (context) => AllListPage(onToggleTheme, onDrawerItemClick),
       };
 
