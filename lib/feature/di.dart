@@ -1,3 +1,4 @@
+import 'game/cast/di.dart';
 import 'group/di.dart';
 import 'lists/di.dart';
 import 'player/insert/di.dart';
@@ -14,4 +15,5 @@ void registerPageModules() {
   registerAllListPage();
   registerGameSetupPage();
   registerPlayerInsertDialogPage();
+  registerGameCastPage();
 }
