@@ -6,6 +6,7 @@ import 'package:mafia/data/db/dao/player_scope_dao.dart';
 import 'package:mafia/data/db/dao/prefs_data_dao.dart';
 import 'package:mafia/data/db/dao/role_dao.dart';
 
+import 'dao/game_dao.dart';
 import 'database_provider.dart';
 
 void registerDbModule() {
@@ -37,5 +38,10 @@ void registerDbModule() {
   serviceLocator.registerSingleton(PlayerDao(
     serviceLocator.get<DatabaseProvider>(),
     serviceLocator.get<PlayerScopeDao>(),
+  ));
+
+  serviceLocator.registerSingleton(GameDao(
+    serviceLocator.get<DatabaseProvider>(),
+    serviceLocator.get<OccupationDao>()
   ));
 }
