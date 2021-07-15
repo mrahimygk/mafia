@@ -96,4 +96,7 @@ class PlayerListCubit extends PageCubit<PlayerListState> {
       }
     });
   }
+
+  List<Player>? getSelectedPlayers() =>
+      cachedPlayers?.where((element) => element.isSelected).toList();
 }

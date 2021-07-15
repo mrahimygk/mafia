@@ -150,4 +150,6 @@ class PlayerListWidget
       }
     });
   }
+
+  List<Player>? getSelectedPlayers() => _cubit.getSelectedPlayers();
 }
