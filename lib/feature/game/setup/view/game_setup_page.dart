@@ -6,10 +6,12 @@ import 'package:mafia/common/base/base_page.dart';
 import 'package:mafia/common/widgets/api_error_widget.dart';
 import 'package:mafia/common/widgets/drawer.dart';
 import 'package:mafia/common/widgets/empty_list_widget.dart';
+import 'package:mafia/domain/model/game/game_insert_request.dart';
 import 'package:mafia/feature/player/list/view/player_list_widget.dart';
 import 'package:mafia/feature/role/list/view/role_selectable_wrap_widget.dart';
-import '../logic/game_setup_cubit.dart';
 import 'package:mafia/navigation/routes.dart';
+
+import '../logic/game_setup_cubit.dart';
 
 class GameSetupPage extends BasePage<GameSetupCubit, GameSetupState, void> {
   final GameSetupCubit _cubit = serviceLocator.get<GameSetupCubit>();
@@ -78,7 +80,15 @@ class GameSetupPage extends BasePage<GameSetupCubit, GameSetupState, void> {
 
   Widget _buildGameSetupView(
       TextDirection direction, bool isDarkMode, BuildContext context) {
-    final roleListWidget = RoleSelectableWrapWidget(onToggleTheme, onDrawerItemClick);
+    final roleListWidget = RoleSelectableWrapWidget(
+      onToggleTheme,
+      onDrawerItemClick,
+    );
+    final playerListWidget = PlayerListWidget(
+      onToggleTheme,
+      onDrawerItemClick,
+    );
+
     final height = MediaQuery.of(context).size.height;
     return Stack(
       children: [
@@ -98,8 +108,9 @@ class GameSetupPage extends BasePage<GameSetupCubit, GameSetupState, void> {
                   },
                 ),
                 Container(
-                    height: height / 4,
-                    child: PlayerListWidget(onToggleTheme, onDrawerItemClick)),
+                  height: height / 4,
+                  child: playerListWidget,
+                ),
                 ListTile(
                   title: Text("roles".tr()),
                   trailing: Icon(
@@ -123,9 +134,22 @@ class GameSetupPage extends BasePage<GameSetupCubit, GameSetupState, void> {
           child: ElevatedButton(
             child: Text("toss".tr()),
             onPressed: () {
-              roleListWidget.getSelectedRoles()?.forEach((element) {
+              //TODO: validations
+              final players = playerListWidget.getSelectedPlayers();
+              final roles = roleListWidget.getSelectedRoles();
+              players?.shuffle();
+              roles?.shuffle();
+              Navigator.pushNamed(
+                context,
+                NavigationRoutes.GAME_CAST,
+                arguments: GameInsertRequest(
+                  players!,
+                  roles!
+                ),
+              );
+              /*roleListWidget.getSelectedRoles()?.forEach((element) {
                 print(element.name);
-              });
+              });*/
             },
           ),
         )
