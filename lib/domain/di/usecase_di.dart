@@ -3,6 +3,7 @@ import 'package:mafia/domain/usecase/game/get_game_by_id_usecase.dart';
 import 'package:mafia/domain/usecase/game/insert_game_usecase.dart';
 import 'package:mafia/domain/usecase/game/new_game_usecase.dart';
 import 'package:mafia/domain/usecase/occupation/get_occupation_list_usecase.dart';
+import 'package:mafia/domain/usecase/occupation/insert_occupation_usecase.dart';
 import 'package:mafia/domain/usecase/player/delete_players_by_ids_usecase.dart';
 import 'package:mafia/domain/usecase/player/get_players_by_ids_usecase.dart';
 import 'package:mafia/domain/usecase/player/get_players_usecase.dart';
@@ -51,6 +52,12 @@ void registerUseCaseModule() {
   serviceLocator.registerFactory<InsertGameUseCase>(
       () => InsertGameUseCaseImpl(serviceLocator.get<GameRepository>()));
 
-  serviceLocator.registerFactory<NewGameUseCase>(
-      () => NewGameUseCaseImpl(serviceLocator.get<GameRepository>()));
+  serviceLocator.registerFactory<InsertOccupationUseCase>(
+      () => InsertOccupationUseCaseImpl(
+            serviceLocator.get<OccupationRepository>(),
+          ));
+
+  serviceLocator.registerFactory<NewGameUseCase>(() => NewGameUseCaseImpl(
+        serviceLocator.get<GameRepository>(),
+      ));
 }
