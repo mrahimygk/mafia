@@ -138,24 +138,56 @@ class GameRepositoryImpl extends GameRepository {
             }
 
             if (occupations.where((Occupation element) {
-              return element.roleId == 3; // 3 is negotiator
-            }).isEmpty &&
+                  return element.roleId == 3; // 3 is negotiator
+                }).isEmpty &&
                 roles.where((element) {
                   return element.name == 'negotiator';
-                }).isNotEmpty && negativeRole.name != 'godfather') {
+                }).isNotEmpty &&
+                negativeRole.name != 'godfather') {
               negativeRole = roles.where((element) {
                 return element.name == 'negotiator';
               }).first;
             }
 
             if (occupations.where((Occupation element) {
-              return element.roleId == 4; // 4 is drLecter
-            }).isEmpty &&
+                  return element.roleId == 4; // 4 is drLecter
+                }).isEmpty &&
                 roles.where((element) {
                   return element.name == 'drLecter';
-                }).isNotEmpty && negativeRole.name != 'negotiator'&& negativeRole.name != 'godfather') {
+                }).isNotEmpty &&
+                negativeRole.name != 'negotiator' &&
+                negativeRole.name != 'godfather') {
               negativeRole = roles.where((element) {
                 return element.name == 'drLecter';
+              }).first;
+            }
+
+            if (occupations.where((Occupation element) {
+                  return element.roleId == 5; // 5 is natasha
+                }).isEmpty &&
+                roles.where((element) {
+                  return element.name == 'natasha';
+                }).isNotEmpty &&
+                negativeRole.name != 'negotiator' &&
+                negativeRole.name != 'godfather' &&
+                negativeRole.name != 'drLecter') {
+              negativeRole = roles.where((element) {
+                return element.name == 'natasha';
+              }).first;
+            }
+
+            if (occupations.where((Occupation element) {
+                  return element.roleId == 6; // 6 is terrorist
+                }).isEmpty &&
+                roles.where((element) {
+                  return element.name == 'terrorist';
+                }).isNotEmpty &&
+                negativeRole.name != 'negotiator' &&
+                negativeRole.name != 'godfather' &&
+                negativeRole.name != 'drLecter' &&
+                negativeRole.name != 'natasha') {
+              negativeRole = roles.where((element) {
+                return element.name == 'terrorist';
               }).first;
             }
           }
