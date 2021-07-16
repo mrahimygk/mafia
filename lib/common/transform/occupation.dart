@@ -7,6 +7,7 @@ import './role.dart';
 extension ToDomain on data.Occupation {
   domain.Occupation toDomain() => domain.Occupation(
         id,
+        gameId,
         player!.toDomain(),
         role!.toDomain(),
         createdDate,

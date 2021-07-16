@@ -5,6 +5,7 @@ import 'package:mafia/data/model/role/role.dart';
 
 class Occupation {
   final int id;
+  final int gameId;
   final int playerId;
   final int roleId;
   Player? player;
@@ -14,6 +15,7 @@ class Occupation {
 
   Occupation(
     this.id,
+    this.gameId,
     this.playerId,
     this.roleId,
     this.player,
@@ -24,6 +26,7 @@ class Occupation {
 
   Occupation copyWith({
     int? id,
+    int? gameId,
     int? playerId,
     int? roleId,
     Player? player,
@@ -33,6 +36,7 @@ class Occupation {
   }) =>
       Occupation(
         id ?? this.id,
+        gameId ?? this.gameId,
         playerId ?? this.playerId,
         roleId ?? this.roleId,
         player ?? this.player,
@@ -44,6 +48,7 @@ class Occupation {
   factory Occupation.fromMap(Map<String, dynamic> json) {
     return Occupation(
       json[occupationColumnId],
+      json[occupationColumnGameId],
       json[occupationColumnPlayerId],
       json[occupationColumnRoleId],
       null,
@@ -56,6 +61,7 @@ class Occupation {
   Map<String, dynamic> toMap() {
     final data = Map<String, dynamic>();
     data[occupationColumnId] = id <= 0 ? null : id;
+    data[occupationColumnGameId] = gameId;
     data[occupationColumnPlayerId] = playerId;
     data[occupationColumnRoleId] = roleId;
     data[tableColumnCreatedDate] = createdDate;
