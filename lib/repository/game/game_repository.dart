@@ -1,8 +1,9 @@
-import 'package:dio/dio.dart';
 import 'package:mafia/common/transform/game.dart';
 import 'package:mafia/data/cache/game/game_cache.dart';
 import 'package:mafia/data/db/dao/game_dao.dart';
+import 'package:mafia/data/db/dao/occupation_dao.dart';
 import 'package:mafia/data/model/game/game.dart' as dat;
+import 'package:mafia/data/model/player/occupation.dart';
 import 'package:mafia/domain/model/base/api_resource.dart';
 import 'package:mafia/domain/model/base/status.dart';
 import 'package:mafia/domain/model/game/game.dart' as dom;
@@ -12,9 +13,10 @@ import 'package:mafia/domain/model/role/role.dart';
 
 abstract class GameRepository {
   final GameDao dao;
+  final OccupationDao occupationDao;
   final GameCache memoryCache;
 
-  GameRepository(this.dao, this.memoryCache);
+  GameRepository(this.dao, this.occupationDao, this.memoryCache);
 
   Stream<ApiResource<List<dom.Game>>> getGames();
 
@@ -30,8 +32,11 @@ abstract class GameRepository {
 }
 
 class GameRepositoryImpl extends GameRepository {
-  GameRepositoryImpl(GameDao dao, GameCache memoryCache)
-      : super(dao, memoryCache);
+  GameRepositoryImpl(
+    GameDao dao,
+    OccupationDao occupationDao,
+    GameCache memoryCache,
+  ) : super(dao, occupationDao, memoryCache);
 
   @override
   Stream<ApiResource<List<dom.Game>>> getGames() async* {
@@ -44,7 +49,7 @@ class GameRepositoryImpl extends GameRepository {
       return ApiResource(
           Status.SUCCESS, value?.map((e) => e.toDomain()).toList(), null);
     }).onError((error, stackTrace) {
-      return ApiResource(Status.ERROR, null, (error as DioError).message);
+      return ApiResource(Status.ERROR, null, error.toString());
     });
 
     yield data;
@@ -61,7 +66,7 @@ class GameRepositoryImpl extends GameRepository {
       return ApiResource(
           Status.SUCCESS, value?.map((e) => e.toDomain()).toList(), null);
     }).onError((error, stackTrace) {
-      return ApiResource(Status.ERROR, null, (error as DioError).message);
+      return ApiResource(Status.ERROR, null, error.toString());
     });
 
     yield data;
@@ -77,7 +82,7 @@ class GameRepositoryImpl extends GameRepository {
       memoryCache.putGame(value);
       return ApiResource(Status.SUCCESS, value?.toDomain(), null);
     }).onError((error, stackTrace) {
-      return ApiResource(Status.ERROR, null, (error as DioError).message);
+      return ApiResource(Status.ERROR, null, error.toString());
     });
 
     yield data;
@@ -93,7 +98,7 @@ class GameRepositoryImpl extends GameRepository {
         .then((int value) {
       return ApiResource(Status.SUCCESS, value, null);
     }).onError((error, stackTrace) {
-      return ApiResource(Status.ERROR, null, (error as DioError).message);
+      return ApiResource(Status.ERROR, null, error.toString());
     });
 
     yield data;
@@ -109,12 +114,47 @@ class GameRepositoryImpl extends GameRepository {
     final ApiResource<int> data = await dao
         .insert(dat.Game(-1, null, DateTime.now().millisecondsSinceEpoch,
             DateTime.now().millisecondsSinceEpoch))
-        .then((int value) {
-      //TODO: insert occupations
+        .then((int gameId) {
+      /**
+       * inserting 3 normal players for each mafia
+       */
+      final List<Occupation> occupations = [];
+      int index = 0;
 
-      return ApiResource(Status.SUCCESS, value, null);
+      players.forEach((player) {
+        if (index != 0 && index % 3 == 0) {
+          occupations.add(Occupation(
+            -1,
+            gameId,
+            player.id,
+            roles.where((element) => element.name == 'mafia').first.id,
+            null,
+            null,
+            DateTime.now().millisecondsSinceEpoch,
+            DateTime.now().millisecondsSinceEpoch,
+          ));
+        } else {
+          occupations.add(Occupation(
+            -1,
+            gameId,
+            player.id,
+            roles.where((element) => element.group.id == 2).first.id,
+            null,
+            null,
+            DateTime.now().millisecondsSinceEpoch,
+            DateTime.now().millisecondsSinceEpoch,
+          ));
+        }
+        index++;
+      });
+
+      occupations.forEach((occupation) {
+        occupationDao.insert(occupation);
+      });
+
+      return ApiResource(Status.SUCCESS, gameId, null);
     }).onError((error, stackTrace) {
-      return ApiResource(Status.ERROR, null, (error as DioError).message);
+      return ApiResource(Status.ERROR, null, error.toString());
     });
 
     yield data;
