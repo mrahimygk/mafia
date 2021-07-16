@@ -34,8 +34,11 @@ class PlayerListCubit extends PageCubit<PlayerListState> {
           if (event.data == null || (event.data?.isEmpty == true)) {
             emit(PlayerListNoDataState());
           } else {
-            cachedPlayers = event.data!;
-            emit(PlayerListDataReceivedState(event.data!));
+            cachedPlayers = event.data?.map((e) {
+              e.isSelected = true;
+              return e;
+            }).toList();
+            emit(PlayerListDataReceivedState(cachedPlayers!));
           }
           break;
 
@@ -66,7 +69,10 @@ class PlayerListCubit extends PageCubit<PlayerListState> {
                 if (event.data == null) {
                   emit(PlayerListDataReceivedState(cachedPlayers!));
                 } else {
-                  cachedPlayers!.addAll(event.data!);
+                  cachedPlayers!.addAll(event.data!.map((e) {
+                    e.isSelected = true;
+                    return e;
+                  }));
                   emit(PlayerListDataReceivedState(cachedPlayers!));
                 }
                 break;
