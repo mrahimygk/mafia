@@ -44,7 +44,8 @@ class OccupationCacheImpl extends OccupationCache {
 
   @override
   Future<Occupation?>? getOccupation(int id) =>
-      cache == null ? null : Future.value(cache![id]);
+      cache == null ? null : cache!.containsKey(id)
+          ?Future.value(cache![id]):null;
 
   @override
   void putOccupation(Occupation? item) {

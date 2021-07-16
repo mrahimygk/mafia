@@ -43,8 +43,11 @@ class GameCacheImpl extends GameCache {
   }
 
   @override
-  Future<Game?>? getGame(int id) =>
-      cache == null ? null : Future.value(cache![id]);
+  Future<Game?>? getGame(int id) => cache == null
+      ? null
+      : cache!.containsKey(id)
+          ? Future.value(cache![id])
+          : null;
 
   @override
   void putGame(Game? item) {

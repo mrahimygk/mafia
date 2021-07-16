@@ -29,7 +29,8 @@ class GroupCacheImpl extends GroupCache {
 
   @override
   Future<Group?>? getGroup(int id) =>
-      cache == null ? null : Future.value(cache![id]);
+      cache == null ? null : cache!.containsKey(id)
+          ?Future.value(cache![id]):null;
 
   @override
   void putGroup(Group? item) {

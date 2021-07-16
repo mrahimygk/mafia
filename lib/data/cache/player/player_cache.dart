@@ -45,7 +45,8 @@ class PlayerCacheImpl extends PlayerCache {
 
   @override
   Future<Player?>? getPlayer(int id) =>
-      cache == null ? null : Future.value(cache![id]);
+      cache == null ? null : cache!.containsKey(id)
+          ?Future.value(cache![id]):null;
 
   @override
   void putPlayer(Player? item) {
