@@ -1,3 +1,4 @@
+import 'package:mafia/data/db/dao/player_dao.dart';
 import 'package:mafia/data/db/dao/role_dao.dart';
 import 'package:mafia/data/db/database_provider.dart';
 import 'package:mafia/data/model/player/occupation.dart';
@@ -9,11 +10,17 @@ import 'dao.dart';
 class OccupationDao implements BaseDao<Occupation> {
   final DatabaseProvider? databaseProvider;
   final RoleDao roleDao;
+  final PlayerDao playerDao;
 
-  OccupationDao(this.databaseProvider, this.roleDao);
+  OccupationDao(
+    this.databaseProvider,
+    this.roleDao,
+    this.playerDao,
+  );
 
   static String get createTableQuery => 'CREATE TABLE $occupationTable ('
       '$occupationColumnId INTEGER PRIMARY KEY AUTOINCREMENT, '
+      '$occupationColumnGameId INTEGER, '
       '$occupationColumnPlayerId INTEGER, '
       '$occupationColumnRoleId INTEGER, '
       "$tableColumnCreatedDate INTEGER DEFAULT (cast(strftime('%s','now') as int)), "
@@ -74,6 +81,7 @@ class OccupationDao implements BaseDao<Occupation> {
       occupationTable,
       columns: [
         occupationColumnId,
+        occupationColumnGameId,
         occupationColumnPlayerId,
         occupationColumnRoleId,
         tableColumnCreatedDate,
@@ -92,6 +100,7 @@ class OccupationDao implements BaseDao<Occupation> {
     List<Map<String, dynamic>> map = await db.query(occupationTable,
         columns: [
           occupationColumnId,
+          occupationColumnGameId,
           occupationColumnPlayerId,
           occupationColumnRoleId,
           tableColumnCreatedDate,
@@ -122,6 +131,7 @@ class OccupationDao implements BaseDao<Occupation> {
     List<Map<String, dynamic>> map = await db.query(occupationTable,
         columns: [
           occupationColumnId,
+          occupationColumnGameId,
           occupationColumnPlayerId,
           occupationColumnRoleId,
           tableColumnCreatedDate,
@@ -140,9 +150,34 @@ class OccupationDao implements BaseDao<Occupation> {
     }
     return null;
   }
+
+  Future<List<Occupation>?>? getOccupationsForGameId(int gameId) async {
+    final db = await databaseProvider!.db();
+    List<Map<String, dynamic>> map = await db.query(occupationTable,
+        columns: [
+          occupationColumnId,
+          occupationColumnGameId,
+          occupationColumnPlayerId,
+          occupationColumnRoleId,
+          tableColumnCreatedDate,
+          tableColumnModifiedDate,
+        ],
+        where: '$occupationColumnGameId = ?',
+        whereArgs: [gameId]);
+    if (map.length > 0) {
+      return await Future.wait(fromList(map).map((element) async {
+        return element.copyWith(
+          player: await playerDao.getFromDb(element.playerId),
+          role: await roleDao.getFromDb(element.roleId),
+        );
+      }));
+    }
+    return null;
+  }
 }
 
 const occupationTable = 'occupation';
 const occupationColumnId = 'id';
+const occupationColumnGameId = 'gameId';
 const occupationColumnPlayerId = 'playerId';
 const occupationColumnRoleId = 'roleId';
