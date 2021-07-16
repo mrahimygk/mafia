@@ -4,6 +4,7 @@ import 'package:mafia/common/data/player_list.dart';
 import 'package:mafia/common/data/player_scope_list.dart';
 import 'package:mafia/common/data/prefs_data.dart';
 import 'package:mafia/common/data/role_list.dart';
+import 'package:mafia/data/db/dao/game_dao.dart';
 import 'package:mafia/data/db/dao/group_dao.dart';
 import 'package:mafia/data/db/dao/occupation_dao.dart';
 import 'package:mafia/data/db/dao/player_dao.dart';
@@ -38,6 +39,7 @@ class DatabaseProvider {
       await db.execute(PlayerScopeDao.createTableQuery);
       await db.execute(RoleDao.createTableQuery);
       await db.execute(PlayerDao.createTableQuery);
+      await db.execute(GameDao.createTableQuery);
       await db.execute(OccupationDao.createTableQuery);
 
       final batch = db.batch();
