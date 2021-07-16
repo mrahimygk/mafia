@@ -21,6 +21,11 @@ void registerDbModule() {
   serviceLocator
       .registerSingleton(PlayerScopeDao(serviceLocator.get<DatabaseProvider>()));
 
+  serviceLocator.registerSingleton(PlayerDao(
+    serviceLocator.get<DatabaseProvider>(),
+    serviceLocator.get<PlayerScopeDao>(),
+  ));
+
   serviceLocator.registerSingleton(
     RoleDao(
       serviceLocator.get<DatabaseProvider>(),
@@ -32,16 +37,13 @@ void registerDbModule() {
     OccupationDao(
       serviceLocator.get<DatabaseProvider>(),
       serviceLocator.get<RoleDao>(),
+      serviceLocator.get<PlayerDao>(),
     ),
   );
 
-  serviceLocator.registerSingleton(PlayerDao(
-    serviceLocator.get<DatabaseProvider>(),
-    serviceLocator.get<PlayerScopeDao>(),
+  serviceLocator.registerSingleton(GameDao(
+      serviceLocator.get<DatabaseProvider>(),
+      serviceLocator.get<OccupationDao>()
   ));
 
-  serviceLocator.registerSingleton(GameDao(
-    serviceLocator.get<DatabaseProvider>(),
-    serviceLocator.get<OccupationDao>()
-  ));
 }
