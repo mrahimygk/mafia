@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:mafia/common/transform/player.dart';
 import 'package:mafia/data/cache/player/player_cache.dart';
 import 'package:mafia/data/db/dao/player_dao.dart';
@@ -39,7 +38,7 @@ class PlayerRepositoryImpl extends PlayerRepository {
       return ApiResource(
           Status.SUCCESS, value?.map((e) => e.toDomain()).toList(), null);
     }).onError((error, stackTrace) {
-      return ApiResource(Status.ERROR, null, (error as DioError).message);
+      return ApiResource(Status.ERROR, null, error.toString());
     });
 
     yield data;
@@ -56,7 +55,7 @@ class PlayerRepositoryImpl extends PlayerRepository {
       return ApiResource(
           Status.SUCCESS, value?.map((e) => e.toDomain()).toList(), null);
     }).onError((error, stackTrace) {
-      return ApiResource(Status.ERROR, null, (error as DioError).message);
+      return ApiResource(Status.ERROR, null, error.toString());
     });
 
     yield data;
@@ -72,7 +71,7 @@ class PlayerRepositoryImpl extends PlayerRepository {
       memoryCache.putPlayer(value);
       return ApiResource(Status.SUCCESS, value?.toDomain(), null);
     }).onError((error, stackTrace) {
-      return ApiResource(Status.ERROR, null, (error as DioError).message);
+      return ApiResource(Status.ERROR, null, error.toString());
     });
 
     yield data;
@@ -93,7 +92,7 @@ class PlayerRepositoryImpl extends PlayerRepository {
         .then((int value) {
       return ApiResource(Status.SUCCESS, value, null);
     }).onError((error, stackTrace) {
-      return ApiResource(Status.ERROR, null, (error as DioError).message);
+      return ApiResource(Status.ERROR, null, error.toString());
     });
 
     yield data;
@@ -103,11 +102,13 @@ class PlayerRepositoryImpl extends PlayerRepository {
   Stream<ApiResource<List<int>>> deletePlayers(List<int> playerIds) async* {
     yield ApiResource(Status.LOADING, null, null);
 
-    final ApiResource<List<int>> data = await dao.deleteByIds(playerIds).then((value) {
+    final ApiResource<List<int>> data =
+        await dao.deleteByIds(playerIds).then((value) {
       memoryCache.removePlayersByIds(playerIds);
       return ApiResource(Status.SUCCESS, value, null);
-    });/*.onError((error, stackTrace) {
-      return ApiResource(Status.ERROR, null, (error as DioError).message);
+    });
+    /*.onError((error, stackTrace) {
+      return ApiResource(Status.ERROR, null, error.toString());
     });*/
 
     yield data;

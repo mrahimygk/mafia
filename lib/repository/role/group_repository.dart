@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:mafia/data/cache/role/group_cache.dart';
 import 'package:mafia/data/db/dao/group_dao.dart';
 import 'package:mafia/data/model/role/group.dart';
@@ -30,7 +29,7 @@ class GroupRepositoryImpl extends GroupRepository {
       memoryCache.putGroups(value);
       return ApiResource(Status.SUCCESS, value, null);
     }).onError((error, stackTrace) {
-      return ApiResource(Status.ERROR, null, (error as DioError).message);
+      return ApiResource(Status.ERROR, null, error.toString());
     });
 
     yield data;
@@ -46,7 +45,7 @@ class GroupRepositoryImpl extends GroupRepository {
       memoryCache.putGroup(value);
       return ApiResource(Status.SUCCESS, value, null);
     }).onError((error, stackTrace) {
-      return ApiResource(Status.ERROR, null, (error as DioError).message);
+      return ApiResource(Status.ERROR, null, error.toString());
     });
 
     yield data;

@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:mafia/common/transform/occupation.dart';
 import 'package:mafia/data/cache/occupation/occupation_cache.dart';
 import 'package:mafia/data/db/dao/occupation_dao.dart';
@@ -6,6 +5,7 @@ import 'package:mafia/data/model/player/occupation.dart' as dat;
 import 'package:mafia/domain/model/base/api_resource.dart';
 import 'package:mafia/domain/model/base/status.dart';
 import 'package:mafia/domain/model/player/occupation.dart' as dom;
+import 'package:mafia/domain/model/player/occupation_insert_request.dart';
 
 abstract class OccupationRepository {
   final OccupationDao dao;
@@ -19,7 +19,7 @@ abstract class OccupationRepository {
 
   Stream<ApiResource<dom.Occupation>> getOccupation(int id);
 
-  Stream<ApiResource<int>> insertOccupation(int playerId, int roleId);
+  Stream<ApiResource<int>> insertOccupation(OccupationInsertRequest request);
 
   Stream<ApiResource<List<int>>> deleteOccupations(List<int> ids);
 }
@@ -39,7 +39,7 @@ class OccupationRepositoryImpl extends OccupationRepository {
       return ApiResource(
           Status.SUCCESS, value?.map((e) => e.toDomain()).toList(), null);
     }).onError((error, stackTrace) {
-      return ApiResource(Status.ERROR, null, (error as DioError).message);
+      return ApiResource(Status.ERROR, null, error.toString());
     });
 
     yield data;
@@ -58,7 +58,7 @@ class OccupationRepositoryImpl extends OccupationRepository {
       return ApiResource(
           Status.SUCCESS, value?.map((e) => e.toDomain()).toList(), null);
     }).onError((error, stackTrace) {
-      return ApiResource(Status.ERROR, null, (error as DioError).message);
+      return ApiResource(Status.ERROR, null, error.toString());
     });
 
     yield data;
@@ -74,21 +74,23 @@ class OccupationRepositoryImpl extends OccupationRepository {
       memoryCache.putOccupation(value);
       return ApiResource(Status.SUCCESS, value?.toDomain(), null);
     }).onError((error, stackTrace) {
-      return ApiResource(Status.ERROR, null, (error as DioError).message);
+      return ApiResource(Status.ERROR, null, error.toString());
     });
 
     yield data;
   }
 
   @override
-  Stream<ApiResource<int>> insertOccupation(int playerId, int roleId) async* {
+  Stream<ApiResource<int>> insertOccupation(
+      OccupationInsertRequest request) async* {
     yield ApiResource(Status.LOADING, null, null);
 
     final ApiResource<int> data = await dao
         .insert(dat.Occupation(
             -1,
-            playerId,
-            roleId,
+            request.gameId,
+            request.playerId,
+            request.roleId,
             null,
             null,
             DateTime.now().millisecondsSinceEpoch,
@@ -96,7 +98,7 @@ class OccupationRepositoryImpl extends OccupationRepository {
         .then((int value) {
       return ApiResource(Status.SUCCESS, value, null);
     }).onError((error, stackTrace) {
-      return ApiResource(Status.ERROR, null, (error as DioError).message);
+      return ApiResource(Status.ERROR, null, error.toString());
     });
 
     yield data;

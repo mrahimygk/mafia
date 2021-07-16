@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:mafia/common/transform/role.dart';
 import 'package:mafia/data/cache/role/role_cache.dart';
 import 'package:mafia/data/db/dao/role_dao.dart';
@@ -35,7 +34,7 @@ class RoleRepositoryImpl extends RoleRepository {
       return ApiResource(
           Status.SUCCESS, value?.map((e) => e.toDomain()).toList(), null);
     }).onError((error, stackTrace) {
-      return ApiResource(Status.ERROR, null, (error as DioError).message);
+      return ApiResource(Status.ERROR, null, error.toString());
     });
 
     yield data;
@@ -51,7 +50,7 @@ class RoleRepositoryImpl extends RoleRepository {
       return ApiResource(
           Status.SUCCESS, value?.map((e) => e.toDomain()).toList(), null);
     }).onError((error, stackTrace) {
-      return ApiResource(Status.ERROR, null, (error as DioError).message);
+      return ApiResource(Status.ERROR, null, error.toString());
     });
 
     yield data;
@@ -67,7 +66,7 @@ class RoleRepositoryImpl extends RoleRepository {
       memoryCache.putRole(value);
       return ApiResource(Status.SUCCESS, value?.toDomain(), null);
     }).onError((error, stackTrace) {
-      return ApiResource(Status.ERROR, null, (error as DioError).message);
+      return ApiResource(Status.ERROR, null, error.toString());
     });
 
     yield data;
