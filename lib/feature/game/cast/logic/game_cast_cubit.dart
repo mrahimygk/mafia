@@ -31,8 +31,26 @@ class GameCastCubit extends PageCubit<GameCastState> {
           if (event.data == null) {
             emit(GameCastNoDataState());
           } else {
-            //TODO: cachedGame = event.data!;
-            //TODO: emit(GameCastDataReceivedState(event.data!));
+            _getGameByIdUseCase.execute(event.data!).listen((event) {
+              switch (event.status) {
+                case Status.LOADING:
+                  //Handled by the previous call
+                  break;
+
+                case Status.SUCCESS:
+                  if (event.data == null) {
+                    emit(GameCastNoDataState());
+                  } else {
+                    cachedGame = event.data!;
+                    emit(GameCastDataReceivedState(event.data!));
+                  }
+                  break;
+
+                case Status.ERROR:
+                  emit(GameCastErrorState(event.message!));
+                  break;
+              }
+            });
           }
           break;
 
@@ -41,30 +59,4 @@ class GameCastCubit extends PageCubit<GameCastState> {
       }
     });
   }
-
-/*void getGameCast() {
-    _getGameByIdUseCase
-        .execute(null)
-        .listen((ApiResource<Game> event) {
-      switch (event.status) {
-        case Status.LOADING:
-          emit(GameCastLoadingState());
-          break;
-
-        case Status.SUCCESS:
-          if (event.data == null || (event.data?.isEmpty == true)) {
-            emit(GameCastNoDataState());
-          } else {
-            cachedGame = event.data!;
-            emit(GameCastDataReceivedState(event.data!));
-          }
-          break;
-
-        case Status.ERROR:
-          emit(GameCastErrorState(event.message!));
-      }
-    }).onError((e, s) {
-      emit(GameCastErrorState(e.toString()));
-    });
-  }*/
 }

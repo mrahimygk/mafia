@@ -4,9 +4,11 @@ import 'package:mafia/app/di.dart';
 import 'package:mafia/common/base/base_page.dart';
 import 'package:mafia/common/widgets/api_error_widget.dart';
 import 'package:mafia/common/widgets/empty_list_widget.dart';
+import 'package:mafia/domain/model/game/game.dart';
 import 'package:mafia/domain/model/game/game_insert_request.dart';
 
 import '../logic/game_cast_cubit.dart';
+import 'package:easy_localization/easy_localization.dart' as localization;
 
 class GameCastWidget extends BasePage<GameCastCubit, GameCastState, void> {
   final GameCastCubit _cubit = serviceLocator.get<GameCastCubit>();
@@ -44,7 +46,7 @@ class GameCastWidget extends BasePage<GameCastCubit, GameCastState, void> {
 
         if (state is GameCastNoDataState) {
           return Center(
-            child: EmptyListWidget("gameCasts", () {
+            child: EmptyListWidget("gameCasts".tr(), () {
               //TODO: add players dialog
             }),
           );
@@ -59,7 +61,7 @@ class GameCastWidget extends BasePage<GameCastCubit, GameCastState, void> {
         }
 
         if (state is GameCastDataReceivedState) {
-          return _buildGameCastView(direction, isDarkMode, context);
+          return _buildGameCastView(state.game, direction, isDarkMode, context);
         }
 
         throw Exception("Please handle all states above $state");
@@ -71,10 +73,35 @@ class GameCastWidget extends BasePage<GameCastCubit, GameCastState, void> {
   GameCastCubit getPageBloc() => _cubit;
 
   Widget _buildGameCastView(
+    Game game,
     TextDirection direction,
     bool isDarkMode,
     BuildContext context,
   ) {
-    return Text("GameCastDataReceivedState");
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: _makeDebugColumnChildren(game));
+  }
+
+  List<Widget> _makeDebugColumnChildren(Game game) {
+    final List<Widget> list = [];
+
+    game.occupations?.forEach((element) {
+      list.add(Card(
+        child: Padding(
+          padding: const EdgeInsets.all(18.0),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Expanded(child: Center(child: Text(element.player.name))),
+              Expanded(child: Center(child: Text(element.role.name))),
+            ],
+          ),
+        ),
+      ));
+    });
+
+    return list;
   }
 }
