@@ -38,6 +38,7 @@ void registerRepositoryModule() {
 
   serviceLocator.registerFactory<GameRepository>(() => GameRepositoryImpl(
         serviceLocator.get<GameDao>(),
+        serviceLocator.get<OccupationDao>(),
         serviceLocator.get<GameCache>(),
       ));
 }
