@@ -76,7 +76,11 @@ class GameDao implements BaseDao<Game> {
       ],
     );
     if (map.length > 0) {
-      return fromList(map);
+      return await Future.wait(fromList(map).map((element) async {
+        return element.copyWith(
+          occupations: await occupationDao.getOccupationsForGameId(element.id),
+        );
+      }));
     }
     return null;
   }
@@ -93,7 +97,10 @@ class GameDao implements BaseDao<Game> {
         where: '$gameColumnId = ?',
         whereArgs: [id]);
     if (map.length > 0) {
-      return fromMap(map.first);
+      final game = fromMap(map.first);
+      return game.copyWith(
+        occupations: await occupationDao.getOccupationsForGameId(id),
+      );
     }
     return null;
   }
