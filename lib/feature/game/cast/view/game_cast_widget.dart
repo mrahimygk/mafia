@@ -78,30 +78,23 @@ class GameCastWidget extends BasePage<GameCastCubit, GameCastState, void> {
     bool isDarkMode,
     BuildContext context,
   ) {
-    return Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: _makeDebugColumnChildren(game));
-  }
-
-  List<Widget> _makeDebugColumnChildren(Game game) {
-    final List<Widget> list = [];
-
-    game.occupations?.forEach((element) {
-      list.add(Card(
-        child: Padding(
-          padding: const EdgeInsets.all(18.0),
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Expanded(child: Center(child: Text(element.player.name))),
-              Expanded(child: Center(child: Text(element.role.name))),
-            ],
+    return ListView.builder(
+      itemCount: game.occupations?.length,
+      itemBuilder: (BuildContext context, int index){
+        final item = game.occupations![index];
+        return Card(
+          child: Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Expanded(child: Center(child: Text(item.player.name))),
+                Expanded(child: Center(child: Text(item.role.name))),
+              ],
+            ),
           ),
-        ),
-      ));
-    });
-
-    return list;
+        );
+      },
+    );
   }
 }
