@@ -42,7 +42,7 @@ class GameCastCubit extends PageCubit<GameCastState> {
                     emit(GameCastNoDataState());
                   } else {
                     cachedGame = event.data!;
-                    emit(GameCastDataReceivedState(event.data!));
+                    emit(GameCastDataReceivedState(cachedGame!));
                   }
                   break;
 
