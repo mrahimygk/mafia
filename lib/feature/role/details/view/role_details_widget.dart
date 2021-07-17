@@ -14,13 +14,9 @@ class RoleDetailsWidget
     extends BasePage<RoleDetailsCubit, RoleDetailsState, void> {
   final RoleDetailsCubit _cubit = serviceLocator.get<RoleDetailsCubit>();
 
-  final VoidCallback onToggleTheme;
-  final Function(int type) onDrawerItemClick;
   final Role role;
 
-  RoleDetailsWidget(this.onToggleTheme, this.onDrawerItemClick, this.role,
-      {Key? key})
-      : super(key: key) {
+  RoleDetailsWidget(this.role, {Key? key}) : super(key: key) {
     _cubit.getRoleDetails(role, false);
   }
 

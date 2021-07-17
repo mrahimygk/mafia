@@ -10,11 +10,7 @@ import 'package:mafia/feature/lists/logic/all_list_cubit.dart';
 class AllListPage extends BasePage<AllListCubit, AllListState, void> {
   final AllListCubit _cubit = serviceLocator.get<AllListCubit>();
 
-  final VoidCallback onToggleTheme;
-  final Function(int type) onDrawerItemClick;
-
-  AllListPage(this.onToggleTheme, this.onDrawerItemClick, {Key? key})
-      : super(key: key) {
+  AllListPage({Key? key}) : super(key: key) {
     _cubit.getAllList();
   }
 

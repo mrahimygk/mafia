@@ -7,17 +7,14 @@ import 'package:mafia/common/widgets/empty_list_widget.dart';
 import 'package:mafia/common/widgets/selectable_item_widget.dart';
 import 'package:mafia/domain/model/player/player.dart';
 import 'package:mafia/feature/player/insert/view/player_insert_dialog.dart';
+
 import '../logic/player_list_cubit.dart';
 
 class PlayerListWidget
     extends BasePage<PlayerListCubit, PlayerListState, void> {
   final PlayerListCubit _cubit = serviceLocator.get<PlayerListCubit>();
 
-  final VoidCallback onToggleTheme;
-  final Function(int type) onDrawerItemClick;
-
-  PlayerListWidget(this.onToggleTheme, this.onDrawerItemClick, {Key? key})
-      : super(key: key) {
+  PlayerListWidget({Key? key}) : super(key: key) {
     _cubit.getPlayerList();
   }
 
