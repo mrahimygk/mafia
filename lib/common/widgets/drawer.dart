@@ -17,27 +17,14 @@ class AppDrawer extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => AppDrawerState(
-        onToggleTheme: onToggleTheme,
-        onLanguageChanged: onLanguageChanged,
-        onItemClick: onItemClick,
-      );
+  State<StatefulWidget> createState() => AppDrawerState();
 }
 
 class AppDrawerState extends State<AppDrawer> {
   Locale? currentLocale;
   bool isDarkMode = false;
 
-  final Function(Locale? locale)? onLanguageChanged;
-  final VoidCallback onToggleTheme;
-  final Function(int type) onItemClick;
-
-  AppDrawerState({
-    Key? key,
-    this.onLanguageChanged,
-    required this.onToggleTheme,
-    required this.onItemClick,
-  });
+  AppDrawerState({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +52,7 @@ class AppDrawerState extends State<AppDrawer> {
                 onChanged: (Locale? newValue) {
                   setState(() {
                     currentLocale = newValue;
-                    onLanguageChanged?.call(newValue);
+                    widget.onLanguageChanged?.call(newValue);
                   });
                 },
                 items: appLocaleList
@@ -86,7 +73,7 @@ class AppDrawerState extends State<AppDrawer> {
                 trailing: Switch(
                   value: isDarkMode,
                   onChanged: (bool newValue) {
-                    onToggleTheme.call();
+                    widget.onToggleTheme.call();
                   },
                 ));
           }
@@ -94,7 +81,7 @@ class AppDrawerState extends State<AppDrawer> {
           return GestureDetector(
               onTapUp: (d) {
                 final item = items[index];
-                onItemClick(item.type);
+                widget.onItemClick(item.type);
                 switch (item.type) {
                   case AppDrawerItems.LISTS:
                     Navigator.pushNamed(context, NavigationRoutes.LISTS);
