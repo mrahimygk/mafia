@@ -205,52 +205,54 @@ class GameRepositoryImpl extends GameRepository {
         } else {
           Role positiveRole =
               roles.where((element) => element.name == 'citizen').first;
-          if (index == 2) {
+
+          if (index > 1) {
             if (occupations.where((Occupation element) {
                   return element.roleId == 18; // 18 is medic
                 }).isEmpty &&
                 roles.where((element) {
                   return element.name == 'medic';
-                }).isNotEmpty) {
+                }).isNotEmpty &&
+                positiveRole.name != 'medic') {
               positiveRole = roles.where((element) {
                 return element.name == 'medic';
               }).first;
             }
-          }
 
-          if (index == 3) {
             if (occupations.where((Occupation element) {
                   return element.roleId == 19; // 19 is sniper
                 }).isEmpty &&
                 roles.where((element) {
                   return element.name == 'sniper';
-                }).isNotEmpty) {
+                }).isNotEmpty &&
+                positiveRole.name != 'medic') {
               positiveRole = roles.where((element) {
                 return element.name == 'sniper';
               }).first;
             }
-          }
 
-          if (index == 5) {
             if (occupations.where((Occupation element) {
                   return element.roleId == 20; // 20 is detective
                 }).isEmpty &&
                 roles.where((element) {
                   return element.name == 'detective';
-                }).isNotEmpty) {
+                }).isNotEmpty &&
+                positiveRole.name != 'medic' &&
+                positiveRole.name != 'sniper') {
               positiveRole = roles.where((element) {
                 return element.name == 'detective';
               }).first;
             }
-          }
 
-          if (index == 9) {
             if (occupations.where((Occupation element) {
                   return element.roleId == 21; // 21 is mayor
                 }).isEmpty &&
                 roles.where((element) {
                   return element.name == 'mayor';
-                }).isNotEmpty) {
+                }).isNotEmpty &&
+                positiveRole.name != 'medic' &&
+                positiveRole.name != 'sniper' &&
+                positiveRole.name != 'detective') {
               positiveRole = roles.where((element) {
                 return element.name == 'mayor';
               }).first;
