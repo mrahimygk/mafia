@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mafia/feature/game/cast/view/game_cast_page.dart';
+import 'package:mafia/feature/game/setup/view/game_setup_page.dart';
 import 'package:mafia/feature/group/view/group_list_page.dart';
 import 'package:mafia/feature/lists/view/all_list_page.dart';
 import 'package:mafia/feature/player/list/view/player_list_page.dart';
 import 'package:mafia/feature/role/details/view/role_details_page.dart';
 import 'package:mafia/feature/role/list/view/role_list_page.dart';
-import 'package:mafia/feature/game/setup/view/game_setup_page.dart';
 import 'package:mafia/navigation/routes.dart';
 
 abstract class NavigationManager {
@@ -13,11 +13,8 @@ abstract class NavigationManager {
 
   NavigationManager(this.initialRoute);
 
-  Map<String, WidgetBuilder> initializeNavigationRoutes(
-    BuildContext context, {
-    required VoidCallback onToggleTheme,
-    required Function(int type) onDrawerItemClick,
-  });
+  Map<String, MaterialPageRoute> initializeNavigationRoutes(
+      BuildContext context, RouteSettings settings);
 
   Future<Object?> pushNamed(
     BuildContext context,
@@ -45,20 +42,51 @@ class NavigationManagerImpl extends NavigationManager {
   NavigationManagerImpl(String initialRoute) : super(initialRoute);
 
   @override
-  Map<String, WidgetBuilder> initializeNavigationRoutes(
-    BuildContext context, {
-    required VoidCallback onToggleTheme,
-    required Function(int type) onDrawerItemClick,
-  }) =>
+  Map<String, MaterialPageRoute> initializeNavigationRoutes(
+          BuildContext context, RouteSettings settings) =>
       {
-        NavigationRoutes.PLAYER_LIST: (context) =>
-            PlayerListPage(onToggleTheme, onDrawerItemClick),
-        NavigationRoutes.GAME_SETUP: (context) => GameSetupPage(onToggleTheme, onDrawerItemClick),
-        NavigationRoutes.ROLE_LIST: (context) => RoleListPage(onToggleTheme, onDrawerItemClick),
-        NavigationRoutes.ROLE_DETAILS: (context) => RoleDetailsPage(onToggleTheme, onDrawerItemClick),
-        NavigationRoutes.GROUP_LIST: (context) => GroupListPage(onToggleTheme, onDrawerItemClick),
-        NavigationRoutes.GAME_CAST: (context) => GameCastPage(onToggleTheme, onDrawerItemClick),
-        NavigationRoutes.LISTS: (context) => AllListPage(onToggleTheme, onDrawerItemClick),
+        NavigationRoutes.PLAYER_LIST: MaterialPageRoute<dynamic>(
+          builder: (context) {
+            return PlayerListPage();
+          },
+          settings: settings,
+        ),
+        NavigationRoutes.GAME_SETUP: MaterialPageRoute<dynamic>(
+          builder: (context) {
+            return GameSetupPage();
+          },
+          settings: settings,
+        ),
+        NavigationRoutes.ROLE_LIST: MaterialPageRoute<dynamic>(
+          builder: (context) {
+            return RoleListPage();
+          },
+          settings: settings,
+        ),
+        NavigationRoutes.ROLE_DETAILS: MaterialPageRoute<dynamic>(
+          builder: (context) {
+            return RoleDetailsPage();
+          },
+          settings: settings,
+        ),
+        NavigationRoutes.GROUP_LIST: MaterialPageRoute<dynamic>(
+          builder: (context) {
+            return GroupListPage();
+          },
+          settings: settings,
+        ),
+        NavigationRoutes.GAME_CAST: MaterialPageRoute<dynamic>(
+          builder: (context) {
+            return GameCastPage();
+          },
+          settings: settings,
+        ),
+        NavigationRoutes.LISTS: MaterialPageRoute<dynamic>(
+          builder: (context) {
+            return AllListPage();
+          },
+          settings: settings,
+        ),
       };
 
   @override
