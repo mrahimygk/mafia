@@ -8,6 +8,7 @@ import 'package:mafia/domain/model/role/role.dart' as dom;
 
 abstract class RoleRepository {
   final RoleDao dao;
+  //TODO: Add GroupDao
   final RoleCache memoryCache;
 
   RoleRepository(this.dao, this.memoryCache);
@@ -63,6 +64,7 @@ class RoleRepositoryImpl extends RoleRepository {
     final ApiResource<dom.Role> data =
         await (memoryCache.getRole(id) ?? dao.getFromDb(id))!
             .then((dat.Role? value) {
+              //TODO: fill group
       memoryCache.putRole(value);
       return ApiResource(Status.SUCCESS, value?.toDomain(), null);
     }).onError((error, stackTrace) {

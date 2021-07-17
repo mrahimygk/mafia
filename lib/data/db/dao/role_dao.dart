@@ -7,7 +7,7 @@ import 'dao.dart';
 
 class RoleDao implements BaseDao<Role> {
   final DatabaseProvider? databaseProvider;
-  final GroupDao groupDao;
+  final GroupDao groupDao; //TODO: move to repo
 
   RoleDao(this.databaseProvider, this.groupDao);
 

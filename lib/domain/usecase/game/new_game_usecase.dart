@@ -3,14 +3,12 @@ import 'package:mafia/domain/model/base/api_resource.dart';
 import 'package:mafia/domain/model/game/game_insert_request.dart';
 import 'package:mafia/repository/game/game_repository.dart';
 
-abstract class NewGameUseCase extends BaseUseCase<GameInsertRequest, int> {
-  final GameRepository _repository;
-
-  NewGameUseCase(this._repository);
-}
+abstract class NewGameUseCase extends BaseUseCase<GameInsertRequest, int> {}
 
 class NewGameUseCaseImpl extends NewGameUseCase {
-  NewGameUseCaseImpl(GameRepository repository) : super(repository);
+  final GameRepository _repository;
+
+  NewGameUseCaseImpl(this._repository);
 
   @override
   Stream<ApiResource<int>> execute(GameInsertRequest request) =>

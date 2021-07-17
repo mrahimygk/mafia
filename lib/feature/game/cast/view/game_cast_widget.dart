@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart' as localization;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mafia/app/di.dart';
@@ -8,19 +9,13 @@ import 'package:mafia/domain/model/game/game.dart';
 import 'package:mafia/domain/model/game/game_insert_request.dart';
 
 import '../logic/game_cast_cubit.dart';
-import 'package:easy_localization/easy_localization.dart' as localization;
 
 class GameCastWidget extends BasePage<GameCastCubit, GameCastState, void> {
   final GameCastCubit _cubit = serviceLocator.get<GameCastCubit>();
 
-  final VoidCallback onToggleTheme;
-  final Function(int type) onDrawerItemClick;
   final GameInsertRequest gameInsertRequest;
 
-  GameCastWidget(
-      this.onToggleTheme, this.onDrawerItemClick, this.gameInsertRequest,
-      {Key? key})
-      : super(key: key) {
+  GameCastWidget(this.gameInsertRequest, {Key? key}) : super(key: key) {
     _cubit.castPlayers(gameInsertRequest);
   }
 
@@ -80,7 +75,8 @@ class GameCastWidget extends BasePage<GameCastCubit, GameCastState, void> {
   ) {
     return ListView.builder(
       itemCount: game.occupations?.length,
-      itemBuilder: (BuildContext context, int index){
+      itemBuilder: (BuildContext context, int index) {
+        game.occupations?.shuffle();
         final item = game.occupations![index];
         return Card(
           child: Padding(

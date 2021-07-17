@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart' as localization;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mafia/app/di.dart';
-import 'package:mafia/common/assets/role_images.dart';
 import 'package:mafia/common/base/base_page.dart';
 import 'package:mafia/common/widgets/api_error_widget.dart';
 import 'package:mafia/common/widgets/empty_list_widget.dart';
@@ -14,13 +13,9 @@ class RoleDetailsWidget
     extends BasePage<RoleDetailsCubit, RoleDetailsState, void> {
   final RoleDetailsCubit _cubit = serviceLocator.get<RoleDetailsCubit>();
 
-  final VoidCallback onToggleTheme;
-  final Function(int type) onDrawerItemClick;
   final Role role;
 
-  RoleDetailsWidget(this.onToggleTheme, this.onDrawerItemClick, this.role,
-      {Key? key})
-      : super(key: key) {
+  RoleDetailsWidget(this.role, {Key? key}) : super(key: key) {
     _cubit.getRoleDetails(role, false);
   }
 
@@ -86,39 +81,22 @@ class RoleDetailsWidget
 
   Widget _buildRoleDetailsView(
       Role role, TextDirection direction, bool isDarkMode) {
-    return NestedScrollView(
-        headerSliverBuilder: (c, b) {
-          return <Widget>[
-            SliverAppBar(
-              expandedHeight: 156,
-              floating: false,
-              pinned: true,
-              flexibleSpace: FlexibleSpaceBar(
-                title: Text("roleDetails".tr()),
-                background: Image.asset(
-                  "$rolesPath/${role.name}.png",
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-          ];
-        },
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 6,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                role.name.tr(),
-                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-              ),
-            ),
-            Text(role.description.tr()), //TODO: add description if empty
-          ],
-        ));
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: 6,
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            role.name.tr(),
+            style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+          ),
+        ),
+        Text(role.description.tr()), //TODO: add description if empty
+      ],
+    );
   }
 }

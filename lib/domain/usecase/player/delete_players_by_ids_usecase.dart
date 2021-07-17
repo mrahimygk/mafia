@@ -3,15 +3,12 @@ import 'package:mafia/domain/model/base/api_resource.dart';
 import 'package:mafia/repository/player/player_repository.dart';
 
 abstract class DeletePlayersByIdsUseCase
-    extends BaseUseCase<List<int>, List<int>> {
-  final PlayerRepository _repository;
-
-  DeletePlayersByIdsUseCase(this._repository);
-}
+    extends BaseUseCase<List<int>, List<int>> {}
 
 class DeletePlayersByIdsUseCaseImpl extends DeletePlayersByIdsUseCase {
-  DeletePlayersByIdsUseCaseImpl(PlayerRepository repository)
-      : super(repository);
+  final PlayerRepository _repository;
+
+  DeletePlayersByIdsUseCaseImpl(this._repository);
 
   @override
   Stream<ApiResource<List<int>>> execute(List<int> request) =>

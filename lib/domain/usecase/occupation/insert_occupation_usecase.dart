@@ -4,15 +4,12 @@ import 'package:mafia/domain/model/player/occupation_insert_request.dart';
 import 'package:mafia/repository/occupation/occupation_repository.dart';
 
 abstract class InsertOccupationUseCase
-    extends BaseUseCase<OccupationInsertRequest, int> {
-  final OccupationRepository _repository;
-
-  InsertOccupationUseCase(this._repository);
-}
+    extends BaseUseCase<OccupationInsertRequest, int> {}
 
 class InsertOccupationUseCaseImpl extends InsertOccupationUseCase {
-  InsertOccupationUseCaseImpl(OccupationRepository repository)
-      : super(repository);
+  final OccupationRepository _repository;
+
+  InsertOccupationUseCaseImpl(this._repository);
 
   @override
   Stream<ApiResource<int>> execute(OccupationInsertRequest request) =>

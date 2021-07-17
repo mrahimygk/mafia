@@ -40,18 +40,21 @@ class PlayerInsertDialog
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       TextFormField(
+                        autofocus: true,
                         controller: controller,
                         decoration: InputDecoration(
                           icon: Icon(Icons.person),
                           labelText: "playerName".tr(),
-                          helperText: "playerName".tr(),
                         ),
                       ),
-                      ElevatedButton(
-                          onPressed: () {
-                            _cubit.insertPlayer(controller.text.toString());
-                          },
-                          child: Text("add".tr())),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 12.0),
+                        child: ElevatedButton(
+                            onPressed: () {
+                              _cubit.insertPlayer(controller.text.toString());
+                            },
+                            child: Text("add".tr())),
+                      ),
                     ],
                   )
                 : state is PlayerInsertLoadingState
@@ -63,8 +66,10 @@ class PlayerInsertDialog
                         ? Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Text("'${controller.text.toString()}'",
-                              style: TextStyle(fontSize: 24),),
+                              Text(
+                                "'${controller.text.toString()}'",
+                                style: TextStyle(fontSize: 24),
+                              ),
                               Row(
                                 children: [
                                   Padding(

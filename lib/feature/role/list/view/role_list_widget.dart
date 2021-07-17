@@ -8,16 +8,13 @@ import 'package:mafia/common/widgets/api_error_widget.dart';
 import 'package:mafia/common/widgets/empty_list_widget.dart';
 import 'package:mafia/domain/model/role/role.dart';
 import 'package:mafia/navigation/routes.dart';
+
 import '../logic/role_list_cubit.dart';
 
 class RoleListWidget extends BasePage<RoleListCubit, RoleListState, void> {
   final RoleListCubit _cubit = serviceLocator.get<RoleListCubit>();
 
-  final VoidCallback onToggleTheme;
-  final Function(int type) onDrawerItemClick;
-
-  RoleListWidget(this.onToggleTheme, this.onDrawerItemClick, {Key? key})
-      : super(key: key) {
+  RoleListWidget({Key? key}) : super(key: key) {
     _cubit.getRoleList();
   }
 
@@ -78,18 +75,23 @@ class RoleListWidget extends BasePage<RoleListCubit, RoleListState, void> {
   Widget _buildRoleListView(
       List<Role> roles, TextDirection direction, bool isDarkMode) {
     return ListView.builder(
-      itemCount: roles.length,
-        itemBuilder: (BuildContext context, int index){
-      final item = roles[index];
-      return Card(
-        child: ListTile(
-          onTap: (){
-            Navigator.of(context).pushNamed(NavigationRoutes.ROLE_DETAILS, arguments: item);
-          },
-          title:  Text(item.name.tr()),
-          trailing: Image.asset("$rolesPath/${item.name}_thumb.png", width: 32, height: 32,),
-        ),
-      );
-    });
+        itemCount: roles.length,
+        itemBuilder: (BuildContext context, int index) {
+          final item = roles[index];
+          return Card(
+            child: ListTile(
+              onTap: () {
+                Navigator.of(context)
+                    .pushNamed(NavigationRoutes.ROLE_DETAILS, arguments: item);
+              },
+              title: Text(item.name.tr()),
+              trailing: Image.asset(
+                "$rolesPath/${item.name}_thumb.png",
+                width: 32,
+                height: 32,
+              ),
+            ),
+          );
+        });
   }
 }

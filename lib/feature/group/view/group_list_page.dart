@@ -4,18 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mafia/app/di.dart';
 import 'package:mafia/common/base/base_page.dart';
 import 'package:mafia/common/widgets/api_error_widget.dart';
-import 'package:mafia/common/widgets/drawer.dart';
 import 'package:mafia/data/model/role/group.dart';
 import 'package:mafia/feature/group/logic/group_list_cubit.dart';
 
 class GroupListPage extends BasePage<GroupListCubit, GroupListState, void> {
   final GroupListCubit _cubit = serviceLocator.get<GroupListCubit>();
 
-  final VoidCallback onToggleTheme;
-  final Function(int type) onDrawerItemClick;
-
-  GroupListPage(this.onToggleTheme, this.onDrawerItemClick, {Key? key})
-      : super(key: key) {
+  GroupListPage({Key? key}) : super(key: key) {
     _cubit.getGroupList();
   }
 
