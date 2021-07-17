@@ -3,14 +3,13 @@ import 'package:mafia/domain/model/base/api_resource.dart';
 import 'package:mafia/domain/model/player/player.dart';
 import 'package:mafia/repository/player/player_repository.dart';
 
-abstract class GetPlayersByIdsUseCase extends BaseUseCase<List<int>, List<Player>> {
-  final PlayerRepository _repository;
-
-  GetPlayersByIdsUseCase(this._repository);
-}
+abstract class GetPlayersByIdsUseCase
+    extends BaseUseCase<List<int>, List<Player>> {}
 
 class GetPlayersByIdsUseCaseImpl extends GetPlayersByIdsUseCase {
-  GetPlayersByIdsUseCaseImpl(PlayerRepository repository) : super(repository);
+  final PlayerRepository _repository;
+
+  GetPlayersByIdsUseCaseImpl(this._repository);
 
   @override
   Stream<ApiResource<List<Player>>> execute(List<int> request) =>

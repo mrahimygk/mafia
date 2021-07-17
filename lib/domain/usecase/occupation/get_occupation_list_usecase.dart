@@ -4,15 +4,12 @@ import 'package:mafia/domain/model/player/occupation.dart';
 import 'package:mafia/repository/occupation/occupation_repository.dart';
 
 abstract class GetOccupationsUseCase
-    extends BaseUseCase<void, List<Occupation>> {
-  final OccupationRepository _repository;
-
-  GetOccupationsUseCase(this._repository);
-}
+    extends BaseUseCase<void, List<Occupation>> {}
 
 class GetOccupationsUseCaseImpl extends GetOccupationsUseCase {
-  GetOccupationsUseCaseImpl(OccupationRepository repository)
-      : super(repository);
+  final OccupationRepository _repository;
+
+  GetOccupationsUseCaseImpl(this._repository);
 
   @override
   Stream<ApiResource<List<Occupation>>> execute(void request) =>
