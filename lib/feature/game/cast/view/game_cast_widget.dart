@@ -81,6 +81,7 @@ class GameCastWidget extends BasePage<GameCastCubit, GameCastState, void> {
     return ListView.builder(
       itemCount: game.occupations?.length,
       itemBuilder: (BuildContext context, int index){
+        game.occupations?.shuffle();
         final item = game.occupations![index];
         return Card(
           child: Padding(
