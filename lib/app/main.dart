@@ -1,13 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:mafia/app/di.dart' as di;
+import 'package:mafia/app/main_scaffold.dart';
 import 'package:mafia/common/data/locales.dart';
 import 'package:mafia/common/data/preferences_keys.dart';
 import 'package:mafia/common/styles/themes.dart';
 import 'package:mafia/common/widgets/drawer.dart';
 import 'package:mafia/data/prefs/app_shared_prefs.dart';
-import 'package:mafia/navigation/manager.dart';
-
-import 'package:mafia/app/di.dart' as di;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,8 +27,6 @@ class MafiaApp extends StatefulWidget {
 }
 
 class _MafiaAppState extends State<MafiaApp> {
-  final NavigationManager _navigationManager =
-      di.serviceLocator.get<NavigationManager>();
   var isDarkMode =
       WidgetsBinding.instance?.window.platformBrightness == Brightness.dark;
 
@@ -61,19 +58,30 @@ class _MafiaAppState extends State<MafiaApp> {
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       title: 'Mafia',
-      initialRoute: _navigationManager.initialRoute,
-      routes: _navigationManager.initializeNavigationRoutes(context,
-          onToggleTheme: () {
-        saveThemePrefs(!isDarkMode);
-      }, onDrawerItemClick: (type) {
-        switch (type) {
-          case AppDrawerItems.LOGIN:
-            break;
-          case AppDrawerItems.LISTS:
-            break;
-        }
-      }),
+      //TODO: generate title
       theme: isDarkMode ? darkTheme : lightTheme,
+      onGenerateRoute: (RouteSettings settings) {
+        late Widget page;
+        final route = settings.name;
+        page = MainScaffold(
+            route: route!,
+            onToggleTheme: () {
+              saveThemePrefs(!isDarkMode);
+            },
+            onDrawerItemClick: (type) {
+              switch (type) {
+                case AppDrawerItems.LOGIN:
+                  break;
+                case AppDrawerItems.LISTS:
+                  break;
+              }
+            });
+        return MaterialPageRoute<dynamic>(
+            settings: settings,
+            builder: (BuildContext context) {
+              return page;
+            });
+      },
     );
   }
 
