@@ -41,6 +41,7 @@ class GameCastCubit extends PageCubit<GameCastState> {
                   if (event.data == null) {
                     emit(GameCastNoDataState());
                   } else {
+                    event.data?.occupations?.shuffle();
                     cachedGame = event.data!;
                     emit(GameCastDataReceivedState(cachedGame!));
                   }
