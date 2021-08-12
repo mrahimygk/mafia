@@ -42,7 +42,7 @@ class GameCastWidget extends BasePage<GameCastCubit, GameCastState, void> {
         if (state is GameCastNoDataState) {
           return Center(
             child: EmptyListWidget("gameCasts".tr(), () {
-              //TODO: add players dialog
+              //TODO: bad
             }),
           );
         }
