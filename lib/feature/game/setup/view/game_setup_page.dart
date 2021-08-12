@@ -40,7 +40,7 @@ class GameSetupPage extends BasePage<GameSetupCubit, GameSetupState, void> {
         if (state is GameSetupNoDataState) {
           return Center(
             child: EmptyListWidget("addGameSetups", () {
-              //TODO: add players dialog
+              //TODO: bad
             }),
           );
         }
