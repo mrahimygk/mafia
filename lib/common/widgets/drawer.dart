@@ -128,7 +128,7 @@ class AppDrawerItems {
       SimpleDrawerItem("login", LOGIN),
       DrawerItem("language", LANGUAGE),
       DrawerItem("darkMode", DARK_MODE),
-      DrawerItem("lists", LISTS),
+      //DrawerItem("lists", LISTS),
     ];
   }
 }
