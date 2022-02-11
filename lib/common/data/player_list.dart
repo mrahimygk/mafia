@@ -3,7 +3,7 @@ import 'package:mafia/data/model/player/player.dart';
 final playerList = [
   Player(
     1,
-    "احسان",
+    "John",
     1,
     null,
     DateTime.now().millisecondsSinceEpoch,
@@ -11,7 +11,7 @@ final playerList = [
   ),
   Player(
     2,
-    "بهنود",
+    "Thomas",
     1,
     null,
     DateTime.now().millisecondsSinceEpoch,
@@ -19,7 +19,7 @@ final playerList = [
   ),
   Player(
     3,
-    "پریا",
+    "Andrey",
     1,
     null,
     DateTime.now().millisecondsSinceEpoch,
@@ -27,7 +27,7 @@ final playerList = [
   ),
   Player(
     4,
-    "حسین",
+    "Jack",
     1,
     null,
     DateTime.now().millisecondsSinceEpoch,
@@ -35,7 +35,7 @@ final playerList = [
   ),
   Player(
     5,
-    "سحر",
+    "Robert",
     1,
     null,
     DateTime.now().millisecondsSinceEpoch,
@@ -43,7 +43,7 @@ final playerList = [
   ),
   Player(
     6,
-    "عذرا",
+    "Mary",
     1,
     null,
     DateTime.now().millisecondsSinceEpoch,
@@ -51,7 +51,7 @@ final playerList = [
   ),
   Player(
     7,
-    "علی",
+    "Patricia",
     1,
     null,
     DateTime.now().millisecondsSinceEpoch,
@@ -59,7 +59,7 @@ final playerList = [
   ),
   Player(
     8,
-    "فریبا",
+    "Jeniffer",
     1,
     null,
     DateTime.now().millisecondsSinceEpoch,
@@ -67,7 +67,7 @@ final playerList = [
   ),
   Player(
     9,
-    "کوروش",
+    "Linda",
     1,
     null,
     DateTime.now().millisecondsSinceEpoch,
@@ -75,7 +75,7 @@ final playerList = [
   ),
   Player(
     10,
-    "مجتبی",
+    "Ada",
     1,
     null,
     DateTime.now().millisecondsSinceEpoch,
@@ -83,7 +83,7 @@ final playerList = [
   ),
   Player(
     11,
-    "محسن",
+    "Jacob",
     1,
     null,
     DateTime.now().millisecondsSinceEpoch,
@@ -91,7 +91,7 @@ final playerList = [
   ),
   Player(
     12,
-    "مولود",
+    "Harry",
     1,
     null,
     DateTime.now().millisecondsSinceEpoch,
@@ -99,7 +99,7 @@ final playerList = [
   ),
   Player(
     13,
-    "میثم",
+    "Leo",
     1,
     null,
     DateTime.now().millisecondsSinceEpoch,
@@ -107,7 +107,7 @@ final playerList = [
   ),
   Player(
     14,
-    "میلاد",
+    "Logan",
     1,
     null,
     DateTime.now().millisecondsSinceEpoch,
@@ -115,7 +115,7 @@ final playerList = [
   ),
   Player(
     15,
-    "نیما",
+    "Ethan",
     1,
     null,
     DateTime.now().millisecondsSinceEpoch,
